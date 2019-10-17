@@ -484,7 +484,7 @@ textarea {
 
 /*スクロールバー*/
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 1em;
   height: 10px;
   background: rgba(0, 0, 0, 0.05);
 }

@@ -475,6 +475,10 @@ p:not(:last-child) {
   grid-area: notice_acct;
 }
 
+.tl-box .area-notice {
+  padding-left: 26px;
+}
+
 .area-a1 {
   grid-area: a1;
 }
