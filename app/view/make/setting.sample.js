@@ -154,6 +154,18 @@ var tlConstruction = [
             checkbox: yesno
         }
     }, {
+        id: "blur-strength",
+        storage: "blur-strength",
+        checkbox: false,
+        doubleText: false,
+        width: 80,
+        setValue: 50,
+        text: {
+            head: "@@blurstrength@@",
+            desc: "@@blurstrengthwarn@@",
+            after: "px"
+        }
+    }, {
         id: "cw",
         storage: "cw",
         checkbox: true,

@@ -66,6 +66,8 @@
   "localewarn": "This value is available on some Japanese servers",
   "nswf": "Hide Mark sensitive pictures",
   "nsfwwarn": "Strong blur effect",
+  "blurstrength":"Strength of blur effect",
+  "blurstrengthwarn": "default:50",
   "cw": "Hide CW contents",
   "replyct": "Reply counter style",
   "replyct_hidden": "Show 1+ if the replies are more than 1.",

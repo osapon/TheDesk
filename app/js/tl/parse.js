@@ -515,20 +515,14 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					media_ids = media_ids + media.id + ",";
 					var url = media.url;
 					var nsfwmes = "";
+					var sense = "";
 					if (toot.sensitive && nsfw) {
-						var sense = "sensitive";
-						var blur = media.blurhash;
 						nsfwmes = '<div class="nsfw-media">' + lang.lang_parse_nsfw + "</div>";
-						if (blur) {
-							purl = parseBlur(blur);
-							var sense = "";
-						}
-					} else {
-						var sense = "";
-						var blur = null;
+						var blur_strength = localStorage.getItem("blur-strength");
+						sense = `filter:blur(${blur_strength}px);`;
 					}
 					if (media.pleroma && media.pleroma.mime_type.indexOf("video") !== -1) {
-						viewer = viewer + "<a onclick=\"imgv('" + id + "','" + key2 + "'," + acct_id + ')" id="' + id + "-image-" + key2 + '" data-url="' + url + '" data-type="video" class="img-parsed"><video src="' + purl + '" class="' + sense + ' toot-img pointer" style="max-width:100%;" loop="true"></a></span>';
+						viewer = viewer + `<a onclick="imgv('${id}','${key2}','${acct_id}')" id="${id}-image-${key2}" data-url="${url}" data-type="video" class="img-parsed"><video src="${purl}" style="${sense}" class="toot-img pointer" style="max-width:100%;" loop="true"></a></span>`;
 					} else {
 						if (media.type == "unknown") {
 							var mty = media.remote_url.match(/.+(\..+)$/)[1];
@@ -543,7 +537,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 							}
 							console.log("https://"+domain+"/storage/no-preview.png")
 							if(media.preview_url=="https://"+domain+"/storage/no-preview.png"){ purl=url; nsfwmes = '<div class="nsfw-media">Unavailable preview</div>';}
-							viewer = viewer + "<a onclick=\"imgv('" + id + "','" + key2 + "','" + acct_id + '\')" id="' + id + "-image-" + key2 + '" data-url="' + url + '" data-type="' + media.type + '" class="img-parsed img-link" style="width:calc(' + cwdt + "% - 1px); height:" + imh + ';"><img draggable="false" src="' + purl + '" class="' + sense + ' toot-img pointer" onerror="this.src=\'../../img/loading.svg\'" title="' + desc + '">' + nsfwmes + "</a>";
+							viewer = viewer + `<a onclick="imgv('${id}','${key2}','${acct_id}')" id="${id}-image-${key2}" data-url="${url}" data-type="${media.type}" class="img-parsed img-link" style="width:calc(${cwdt}% - 1px); height:${imh};"><img draggable="false" src="${purl}" style="${sense}" class="toot-img pointer" onerror="this.src='../../img/loading.svg'" title="${desc}">${nsfwmes}</a>`;
 						}
 					}
 				});

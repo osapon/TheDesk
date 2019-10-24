@@ -66,6 +66,8 @@
   "localewarn": "対応サーバーではそのサーバーにあわせた言語表示ができます。",
   "nswf": "非表示設定の画像を隠す",
   "nsfwwarn": "きつめのぼかしがかかります。",
+  "blurstrength":"ぼかし強度",
+  "blurstrengthwarn": "デフォルトは50",
   "cw": "非表示設定のテキスト(CW)を隠す",
   "replyct": "リプライ数表示",
   "replyct_hidden": "2以上のとき1+と表示",
