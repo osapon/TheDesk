@@ -724,6 +724,31 @@
 			<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">@@close@@</a>
 		</div>
 	</div>
+	<!--mstdn.jp useragent-->
+	<div id="askjp_jp_ua" class="hide" style="z-index:505;width:100vw;height:100vh; background-color: #530f0f;color:white;padding:20px;overflow-y:scroll;position:absolute;">
+		<p style="font-size:300%">【緊急】mstdn.jpへのアクセスについて</p><br>
+		<p style="font-size:200%">問題の概要</p>
+		<p>合同会社分散型ソーシャルネットワーク機構は非公開審査によってユーザーエージェントベースで個々のアプリに対してAPIへのアクセスを許可する方法を取っています。</p>
+		<p>TheDesk開発者はこれに強く反発し、TheDeskのユーザーエージェントをそのアプリからのアクセスであると特定することができない値にすることを決めました。</p>
+		<p>具体的には、"Mastodon client: [起動毎に変わる100文字の英数記号]"と設定しました。</p>
+		<p style="font-size:200%">ユーザーによる対策</p>
+		<p>このバージョンのTheDeskでは任意のユーザーエージェントを適用できます。「設定」内の「環境設定」で設定していただけます。<a href="setting.html">設定</a></p>
+		<p style="font-size:150%">1. 「TheDesk」を含む値に設定する</p>
+		<p>「設定」内の「環境設定」、「ユーザーエージェント」に「TheDesk」を含む値を入れてください。大文字小文字に注意してください。</p>
+		<p><b>懸念点</b></p>
+		<p>TheDesk開発者は合同会社分散型ソーシャルネットワーク機構に対しこの件についてメールで問い合わせを行っています(抗議ではありません)。問い合わせの過程でアプリ許可が取り消され、使用不能になる可能性があります。</p>
+		<p><u>ちなみに</u></p>
+		<p>合同会社分散型ソーシャルネットワーク機構はmstdn.jpのお知らせアカウントに対するリプライに書かれたサードパーティクライアントを「審査」の後許可するとトゥートし、複数ユーザーがTheDeskの名前を挙げました。
+			事実、トゥートの翌日までにTheDeskに対してアクセス許可が出されました。しかし、許可を出す際にTheDeskの標準ユーザーエージェントを機構は一切確認せず、「TheDesk」という文字列が入ったユーザーエージェントを一律で許可する設定にしたようです。
+			結果として実際の標準ユーザーエージェントはそれに合致せず、不許可のままとなっていました。前バージョンまでの標準ユーザーエージェントは、パッケージ名の都合上全て小文字の「thedesk」を採用していました。
+		</p>
+		<p style="font-size:150%">2. 「認定済み」クライアントの名前を含む値に設定する</p>
+		<p>「設定」内の「環境設定」、「ユーザーエージェント」に、<a href="https://mstdn.jp/about">mstdn.jpのトップページ</a>記載のアプリ名を含む値を入れてください。大文字小文字やスペースに注意してください。</p>
+		<p>「Mastodon日本鯖です．」と書かれた以降の一段を全てコピーして記載してもアクセス可能です。<u>これほどまでにユーザーエージェント制限は「抜け道」が多いのです。</u><a href="setting.html">設定</a></p>
+		<p><b>懸念点</b></p>
+		<p>その記載されたアプリと合同会社分散型ソーシャルネットワーク機構になんの関係があるかは知りませんが、どちらにしろ他のクライアントの名を借りてアクセスの許可をいただくというあまり道徳的によろしくない方法です。</p>
+		<button onclick="$('#askjp_jp_ua').addClass('hide')" class="btn waves-effect">閉じる</button>
+	</div>
 	<!-- Modal Structure Release Note-->
 	<div id="releasenote" class="modal modal-fixed-footer">
 		<div class="modal-content">
@@ -731,66 +756,27 @@
 			<a href="https://thedesk.top" target="_blank">HP</a><br>
 			<a href="https://github.com/cutls/TheDesk" target="_blank">GitHub</a><br>
 			<br>
-			<div id="release-Usamin_18-11-3" class="release-do" style="display:none; ">><br>
+			<div id="release-Usamin_18-11-4" class="release-do" style="display:none; ">><br>
 				<a href="https://ja.mstdn.wiki/TheDesk" target="_blank">機能一覧</a><br>
 				Pixiv FanboxやPatreonでは支援者様限定で様々なTheDeskに関する記事をご覧いただけます。最低月一更新。<br>
 				困ったときは、<a href="https://docs.thedesk.top">TheDesk Docs</a>をご覧ください。
-				<h5>Release Note Usamin (18.11.3)</h5>
-				・投稿ボックスの横幅が長くなる不具合を修正
-				<a onclick="udgEx('@micchan83@fedibird.com','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/67261210-a46a7980-f4da-11e9-9c9c-704757d3b1a7.png">micchan83
-				</a><br>
+				<h5>Release Note Usamin (18.11.4)</h5>
+				・mstdn.jpのユーザーエージェント制限に対する抗議的処置
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
 				</a><br>
-				・モーダルを閉じても動画が再生され続ける不具合を修正
-				<a onclick="udgEx('@micchan83@fedibird.com','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/67261210-a46a7980-f4da-11e9-9c9c-704757d3b1a7.png">micchan83
-				</a>
-				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
-					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
-				</a><br>
-				・アクセストークンを用いてログイン(viaの変更も不可能ではないが上級者向け)
-				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
-					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
-				</a><br>
-				・検索語句入力後Enterで検索を開始できる
-				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
-					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
-				</a><br>
-				・アプデチェックがわかりやすく
+				・フォロー表示が間違っている不具合の修正
 				<a onclick="udgEx('osapon@mstdn.nere9.help','main')" class="contributor">
 					<img src="https://user-images.githubusercontent.com/17561618/66582531-eb906a80-ebbc-11e9-9969-7c245cb853c6.png">osapon
 				</a>
-				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
-					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
-				</a><br>
-				・設定変更後undefinedと出ることがある
-				<a onclick="udgEx('osapon@mstdn.nere9.help','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/66582531-eb906a80-ebbc-11e9-9969-7c245cb853c6.png">osapon
+				<a onclick="udgEx('hinketu@minohdon.jp','main')" class="contributor">
+					<img src="https://user-images.githubusercontent.com/17561618/67628814-f4688800-f8ae-11e9-8421-c3f891918f48.png">hinketu
 				</a>
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
-				</a><br>
-				・ヘッダーカラーのアイコンが見えにくくなることがある
-				<a onclick="udgEx('osapon@mstdn.nere9.help','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/66582531-eb906a80-ebbc-11e9-9969-7c245cb853c6.png">osapon
 				</a>
-				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
-					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
-				</a><br>
-				・ライセンス画面を外部化
-				<a href="https://app.fossa.com/projects/git%2Bgithub.com%2Fcutls%2FTheDesk?ref=badge_small" alt="FOSSA Status"><img src="https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcutls%2FTheDesk.svg?type=small"/></a>
-				<a onclick="udgEx('osapon@mstdn.nere9.help','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/66582531-eb906a80-ebbc-11e9-9969-7c245cb853c6.png">osapon
-				</a>
-				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
-					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
-				</a><br>
-				・コピーをネイティブ化(たまにコピーがうまく行かない不具合を修正)
-				<a onclick="udgEx('osapon@mstdn.nere9.help','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/66582531-eb906a80-ebbc-11e9-9969-7c245cb853c6.png">osapon
-				</a>
+				<br>
+				・高速化など設定画面の改善
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
 				</a><br>
