@@ -593,7 +593,7 @@
 							@@useOtherAcct1@@@@revoverJP@@@@follow@@(@@warnUseOtherAcct@@)<br>
 							<div style="max-width:500px;"><select id="user-acct-sel" class="acct-sel"></select></div>
 							@@revoverJPde@@
-							<a href="#!" class="waves-effect btn" onclick="follow('selector','true')">@@follow@@</a><br>
+							<a href="#!" class="waves-effect btn" onclick="follow('selector','selector')">@@follow@@</a><br>
 							@@or@@<br>
 							<a href="#!" class="waves-effect btn"
 								onclick="udgEx('selector', 'selector')">@@openProf@@</a><br>
@@ -694,12 +694,16 @@
 		</div>
 		<div class="modal-footer">
 			DL:<span id="imgprog"></span>%
+			(<span id="imgsec"></span>ms)
 			<a class="waves-effect white-text" onclick="zoom(2)">
 				<i class="material-icons">zoom_in</i>
 			</a>
 			<a class="waves-effect white-text" onclick="zoom(0.5)">
 				<i class="material-icons">zoom_out</i>
 			</a>
+			<button class="btn waves-effect blue" onclick="copyImgUrl()">
+				<i class="material-icons left">link</i>@@copyURL@@
+			</button>
 			<button class="btn waves-effect purple" onclick="dlImg()">
 				<i class="material-icons">file_download</i>
 			</button>
@@ -756,27 +760,42 @@
 			<a href="https://thedesk.top" target="_blank">HP</a><br>
 			<a href="https://github.com/cutls/TheDesk" target="_blank">GitHub</a><br>
 			<br>
-			<div id="release-Usamin_18-11-4" class="release-do" style="display:none; ">><br>
+			<div id="release-20-0-0_Kawaii" class="release-do" style="display:none; ">><br>
 				<a href="https://ja.mstdn.wiki/TheDesk" target="_blank">機能一覧</a><br>
 				Pixiv FanboxやPatreonでは支援者様限定で様々なTheDeskに関する記事をご覧いただけます。最低月一更新。<br>
 				困ったときは、<a href="https://docs.thedesk.top">TheDesk Docs</a>をご覧ください。
-				<h5>Release Note Usamin (18.11.4)</h5>
-				・mstdn.jpのユーザーエージェント制限に対する抗議的処置
+				<h5>Release Note 20.0.0 (Kawaii)</h5>
+				・コードがKawaii感じ(Prettier)になりました
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
 				</a><br>
-				・フォロー表示が間違っている不具合の修正
-				<a onclick="udgEx('osapon@mstdn.nere9.help','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/66582531-eb906a80-ebbc-11e9-9969-7c245cb853c6.png">osapon
-				</a>
-				<a onclick="udgEx('hinketu@minohdon.jp','main')" class="contributor">
-					<img src="https://user-images.githubusercontent.com/17561618/67628814-f4688800-f8ae-11e9-8421-c3f891918f48.png">hinketu
-				</a>
+				・リクエストエラーログ表示(例えばTLが表示されないのが、TheDeskが悪いのかサーバーが悪いのかなどがわかる)
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
 				</a>
 				<br>
-				・高速化など設定画面の改善
+				・他のアカウントでフォローが上手く行かない不具合の修正
+				<a onclick="udgEx('micchan83@fedibird.com','main')" class="contributor">
+					<img src="https://user-images.githubusercontent.com/17561618/67261210-a46a7980-f4da-11e9-9c9c-704757d3b1a7.png">micchan83
+				</a>
+				<a onclick="udgEx('noellabo@fedibird.com','main')" class="contributor">
+					<img src="https://user-images.githubusercontent.com/17561618/68497129-345c4180-0297-11ea-8001-1853bc0c84b8.png">noellabo
+				</a>
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・Integrated TLについて改善
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・イメージビューアのソースを自サーバーキャッシュかリモートかを選べるように。自鯖のCDN代圧縮に2mmくらい役立つかも
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・画像URLのコピー
+				<a onclick="udgEx('Zergling_man@openweb.social','main')" class="contributor">
+					<img src="https://user-images.githubusercontent.com/17561618/68497404-cebc8500-0297-11ea-8b21-99c6a40ecde0.png">Zergling_man
+				</a>
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
 				</a><br>
@@ -842,8 +861,8 @@
 						class="material-icons">recent_actors</i><span>@@directory@@</span></div>
 				<div class="waves-effect" onclick="filterMenu()" id="filterMenu"><i
 						class="material-icons">filter_list</i><span>@@filter@@</span></div>
-				<div class="waves-effect" onclick="help()"><i
-						class="material-icons">help_outline</i><span>@@help@@</span></div>
+				<div class="waves-effect" onclick="help()" id="helpMenu"><i
+						class="material-icons">help_outline</i><span>@@helpAndLogs@@</span></div>
 				<div class="waves-effect" onclick="location.href='index.html'"><i
 						class="material-icons">refresh</i><span>@@f5@@</span></div>
 			</div>
@@ -1042,6 +1061,12 @@
 						id="add-filter-btn">@@add@@</button><br>
 					<span class="sml">@@warnOnIntegratedTL@@</span>
 				</div>
+				<!--ヘルプとログ-->
+				<div id="help-box" class="hide menu-content">
+					<a href="https://docs.thedesk.top" class="btn waves-effect" style="width:97.5%;">@@help@@</a><br>
+					@@contactwithlog@@<br>
+					<textarea id="logs" style="height:250px;"></textarea><br>
+				</div>
 			</div>
 		</div>
 		<a onclick="about()" class="nex waves-effect">
@@ -1179,6 +1204,7 @@
 	<script type="text/javascript" src="../../node_modules/jquery/dist/jquery.js"></script>
 	<script type="text/javascript" src="../../js/platform/first.js"></script>
 	<script type="text/javascript" src="../../node_modules/materialize-css/dist/js/materialize.js"></script>
+	<script type="text/javascript" src="../../node_modules/lodash/lodash.min.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="../../js/common/time.js"></script>
 	<script type="text/javascript" src="../../js/common/blurhash.js"></script>
