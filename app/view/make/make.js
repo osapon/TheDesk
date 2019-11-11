@@ -1,4 +1,4 @@
-let ver = "20.0.0 (Kawaii)";
+let ver = "20.0.2 (Kawaii)";
 if (process.argv.indexOf("--automatic") === -1) {
     let input = require("readline-sync").question("version string [empty: " + ver + " (default)]? ");
     if (input) {
@@ -57,7 +57,7 @@ function main(ver, basefile) {
 					refKey.push(key);
 					let str = target[key];
 					if (pages[i] == "setting.vue.js") {
-						str = str.replace(/"/g, '\\"');
+						str = str.replace(/'/g, '\\');
 					}
 					var regExp = new RegExp("@@" + key + "@@", "g");
 					source = source.replace(regExp, str);
@@ -72,7 +72,7 @@ function main(ver, basefile) {
 					}
 					if (pages[i] == "setting.vue.js") {
 						if (str) {
-							str = str.replace(/"/g, '\\"');
+							str = str.replace(/'/g, '\\');
 						}
 					}
 					var regExp = new RegExp("@@" + tarKey + "@@", "g");
