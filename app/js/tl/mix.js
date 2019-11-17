@@ -87,8 +87,8 @@ function mixre(acct_id, tlid, TLtype, mute, voice, mode) {
 	wsLocal[wslid].onerror = function(error) {
 		console.error('WebSocketLocal Error')
 		console.error(error)
+		$('#notice_icon_' + tlid).addClass('red-text')
 		if (mode == 'error') {
-			$('#notice_icon_' + tlid).addClass('red-text')
 			todo('WebSocket Error ' + error)
 		} else {
 			var errorct = localStorage.getItem('wserror_' + tlid) * 1 + 1
@@ -100,8 +100,8 @@ function mixre(acct_id, tlid, TLtype, mute, voice, mode) {
 	}
 	wsLocal[wslid].onclose = function() {
 		console.warn('WebSocketLocal Closing:' + tlid)
+		$('#notice_icon_' + tlid).addClass('red-text')
 		if (mode == 'error') {
-			$('#notice_icon_' + tlid).addClass('red-text')
 			todo('WebSocket Closed')
 		} else {
 			var errorct = localStorage.getItem('wserror_' + tlid) * 1 + 1
@@ -113,8 +113,8 @@ function mixre(acct_id, tlid, TLtype, mute, voice, mode) {
 	}
 	wsHome[wshid].onerror = function(error) {
 		console.error(['WebSocketHome Error', error])
+		$('#notice_icon_' + tlid).addClass('red-text')
 		if (mode == 'error') {
-			$('#notice_icon_' + tlid).addClass('red-text')
 			todo('WebSocket Error ' + error)
 		} else {
 			var errorct = localStorage.getItem('wserror_' + tlid) * 1 + 1
@@ -126,8 +126,8 @@ function mixre(acct_id, tlid, TLtype, mute, voice, mode) {
 	}
 	wsHome[wshid].onclose = function() {
 		console.warn('WebSocketHome Closing:' + tlid)
+		$('#notice_icon_' + tlid).addClass('red-text')
 		if (mode == 'error') {
-			$('#notice_icon_' + tlid).addClass('red-text')
 			todo('WebSocket Closed')
 		} else {
 			var errorct = localStorage.getItem('wserror_' + tlid) * 1 + 1
@@ -183,7 +183,7 @@ async function mixmore(tlid, type) {
 	.attr('unique-id')
 	let startLocal = 'https://' + domain + '/api/v1/timelines/public?local=true&max_id=' + sid
 	let local = await getTL(startLocal, acct_id)
-	let startHome = 'https://' + domain + '/api/v1/timelines/home&max_id=' + sid
+	let startHome = 'https://' + domain + '/api/v1/timelines/home?max_id=' + sid
 	let home = await getTL(startHome, acct_id)
 	let concated = _.concat(local, home)
 	let uniqued = _.uniqBy(concated, 'id')
