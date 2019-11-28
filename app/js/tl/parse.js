@@ -669,7 +669,9 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					var featured = `　<a onclick="tagFeature('${tag.name}','${acct_id}')" class="pointer" title="add it to Featured tags">Feature</a>　`
 					tags =
 						tags +
-						`<span class="hide" data-tag="${tag.name}">#${tag.name}:
+						`<span class="hide" data-tag="${tag.name}" data-regTag="${tag.name.toLowerCase()}">#${
+							tag.name
+						}:
 							<a onclick="tl('tag','${tag.name}','${acct_id}','add')" class="pointer"
 							 title="${lang.lang_parse_tagTL.replace(
 									'{{tag}}',
@@ -680,7 +682,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 							'{{tag}}',
 							'#' + tag.name
 						)}
-						">Pin</a></span> `
+						">Pin</a>${featured}</span> `
 				})
 				tags = '<div style="float:right">' + tags + '</div>'
 			}
@@ -1324,15 +1326,28 @@ function client(name) {
 //Poll Parser
 function pollParse(poll, acct_id) {
 	var datetype = localStorage.getItem('datetype')
+	var anime = localStorage.getItem('animation')
+	if (anime == 'yes' || !anime) {
+		var lpAnime = 'lpAnime'
+	} else {
+		var lpAnime = ''
+	}
 	var choices = poll.options
 	if (poll.own_votes) {
 		var minechoice = poll.own_votes
 	} else {
 		var minechoice = []
 	}
-
-	if (poll.voted) {
+	var refresh = `<a onclick="voteMastodonrefresh('${acct_id}','${poll.id}')" class="pointer">
+		${lang.lang_manager_refresh}
+	</a>`
+	if (poll.voted && poll.own_votes.length) {
 		var myvote = lang.lang_parse_voted
+		if (poll.expired) myvote = myvote + '/' + lang.lang_parse_endedvote
+		var result_hide = ''
+	} else if (poll.voted && !poll.own_votes.length) {
+		var myvote = lang.lang_parse_myvote
+		if (poll.expired) myvote = myvote + '/' + lang.lang_parse_endedvote
 		var result_hide = ''
 	} else if (poll.expired) {
 		var myvote = lang.lang_parse_endedvote
@@ -1344,49 +1359,69 @@ function pollParse(poll, acct_id) {
 				myvote +
 				`<a onclick="showResult('${acct_id}','${poll.id}')" class="pointer">
 				${lang.lang_parse_unvoted}
-				</a>`
+				</a>　`
 		}
 		var result_hide = 'hide'
 	}
 	var ended = date(poll.expires_at, datetype)
 	var pollHtml = ''
+	if (choices[0].votes_count === 0 || choices[0].votes_count >0) {
+		var max = _.maxBy(choices, 'votes_count').votes_count
+	} else {
+		var max = 0
+	}
+
 	Object.keys(choices).forEach(function(keyc) {
 		var choice = choices[keyc]
 		var voteit = ''
 		for (var i = 0; i < minechoice.length; i++) {
 			var me = minechoice[i]
 			if (me == keyc) {
-				var voteit = '✅'
+				var voteit = '<span class="ownMark"><img class="emoji" draggable="false" src="https://twemoji.maxcdn.com/v/12.1.4/72x72/2705.png"></span>'
 				break
 			}
 		}
 		if (!poll.voted && !poll.expired) {
 			var votesel =
 				"voteSelMastodon('" + acct_id + "','" + poll.id + "'," + keyc + ',' + poll.multiple + ')'
-			var voteclass = 'pointer waves-effect waves-light'
+			var voteclass = 'pointer'
 		} else {
 			var votesel = ''
 			var voteclass = ''
 		}
+		var per = Math.ceil((choice.votes_count / poll.votes_count) * 100)
+		if(!per) per = 0
+		if (max == choice.votes_count) {
+			var addPoll = 'maxVoter'
+		} else {
+			var addPoll = ''
+		}
+		var openData = ''
+		if (choice.votes_count !== null) {
+			openData = `<span style="float: right">${choice.votes_count}<span class="sml">(${per}%)</span></span>`
+		} else {
+			openData = `<span style="float: right">?<span class="sml">(-%)</span></span>`
+		}
 		pollHtml =
 			pollHtml +
 			`<div class="${voteclass} vote vote_${acct_id}_${poll.id}_${keyc}" onclick="${votesel}">
-				${escapeHTML(choice.title)}
-				<span class="vote_${acct_id}_${poll.id}_result ${result_hide}">
-					(${choice.votes_count})
+				<span class="vote_${acct_id}_${poll.id}_result leadPoll ${result_hide} ${addPoll} ${lpAnime}" style="width: ${per}%"></span>
+				<span class="onPoll">${escapeHTML(choice.title)}${voteit}</span>
+				<span class="vote_${acct_id}_${poll.id}_result ${result_hide} onPoll">
+					${openData}
 				</span>
-				${voteit}
 			</div>`
 	})
+	if (poll.expired) {
+		refresh = ''
+	}
 	pollHtml = `<div class="vote_${acct_id}_${poll.id}">
 			${pollHtml}${myvote}
-			<a onclick="voteMastodonrefresh('${acct_id}','${poll.id}')" class="pointer">
-				${lang.lang_manager_refresh}
-			</a>
+			${refresh}
 			<span class="cbadge cbadge-hover" title="${date(poll.expires_at, 'absolute')}">
 				<i class="far fa-calendar-times"></i>
 				${ended}
-			</span>
+			</span>${poll.voters_count} ${lang.lang_parse_people}
 		</div>`
 	return pollHtml
 }
