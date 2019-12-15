@@ -1,7 +1,7 @@
 //お気に入り登録やブースト等、フォローやブロック等
 //お気に入り登録
 function fav(id, acct_id, remote) {
-	if ($('#pub_' + id).hasClass('faved')) {
+	if ($(`.cvo[unique-id=${id}]`).hasClass('faved')) {
 		var flag = 'unfavourite'
 	} else {
 		var flag = 'favourite'
@@ -57,7 +57,7 @@ function fav(id, acct_id, remote) {
 
 //ブースト
 function rt(id, acct_id, remote, vis) {
-	if ($('#pub_' + id).hasClass('rted')) {
+	if ($(`.cvo[toot-id=${id}]`).hasClass('rted')) {
 		var flag = 'unreblog'
 	} else {
 		var flag = 'reblog'
@@ -85,7 +85,7 @@ function rt(id, acct_id, remote, vis) {
 				json = json.reblog
 			}
 			console.log(['Success: boost', json])
-			$('[unique-id=' + id + '] .fav_ct').text(json.favourites_count)
+			$('[toot-id=' + id + '] .fav_ct').text(json.favourites_count)
 			if (!json.reblog) {
 				if (flag == 'unreblog') {
 					var rt = json.reblogs_count - 1
@@ -95,16 +95,16 @@ function rt(id, acct_id, remote, vis) {
 				} else {
 					var rt = json.reblogs_count
 				}
-				$('[unique-id=' + id + '] .rt_ct').text(rt)
+				$('[toot-id=' + id + '] .rt_ct').text(rt)
 			} else {
-				$('[unique-id=' + id + '] .rt_ct').text(json.reblogs_count)
+				$('[toot-id=' + id + '] .rt_ct').text(json.reblogs_count)
 			}
 
-			if ($('[unique-id=' + id + ']').hasClass('rted')) {
-				$('[unique-id=' + id + ']').removeClass('rted')
+			if ($('[toot-id=' + id + ']').hasClass('rted')) {
+				$('[toot-id=' + id + ']').removeClass('rted')
 				$('.rt_' + id).removeClass('light-blue-text')
 			} else {
-				$('[unique-id=' + id + ']').addClass('rted')
+				$('[toot-id=' + id + ']').addClass('rted')
 				$('.rt_' + id).addClass('light-blue-text')
 			}
 		}
@@ -117,7 +117,7 @@ function boostWith(vis) {
 }
 //ブックマーク
 function bkm(id, acct_id, tlid) {
-	if ($('#pub_' + id).hasClass('bkmed')) {
+	if ($(`.cvo[unique-id=${id}]`).hasClass('bkmed')) {
 		var flag = 'unbookmark'
 	} else {
 		var flag = 'bookmark'
@@ -420,20 +420,30 @@ function redraft(id, acct_id) {
 					$('select').formSelect()
 					mdCheck()
 					var medias = $('[toot-id=' + id + ']').attr('data-medias')
+					var mediack = json.media_attachments[0]
+					//メディアがあれば
+					var media_ids = []
+					if (mediack) {
+						for (var i = 0; i <= 4; i++) {
+							if (json.media_attachments[i]) {
+								media_ids.push(json.media_attachments[i].id)
+								$('#preview').append(
+									'<img src="' +
+										json.media_attachments[i].preview_url +
+										'" style="width:50px; max-height:100px;">'
+								)
+							} else {
+								break
+							}
+						}
+					}
 					var vismode = $('[toot-id=' + id + '] .vis-data').attr('data-vis')
 					vis(vismode)
+					var medias = media_ids.join(',');
 					$('#media').val(medias)
-					var ct = medias.split(',').length
-					$('[toot-id=' + id + '] img.toot-img').each(function(i, elem) {
-						if (i < ct) {
-							var url = $(elem).attr('src')
-							console.log('Play back image data:' + url)
-							$('#preview').append('<img src="' + url + '" style="width:50px; max-height:100px;">')
-						}
-					})
 					localStorage.setItem('nohide', true)
 					show()
-					if(json.text){
+					if (json.text) {
 						var html = json.text
 					} else {
 						var html = $('[toot-id=' + id + '] .toot').html()
@@ -449,12 +459,12 @@ function redraft(id, acct_id) {
 						cw()
 						$('#cw-text').val(json.spoiler_text)
 					}
-					if (json.sensitive){
+					if (json.sensitive) {
 						$('#nsfw').addClass('yellow-text')
 						$('#nsfw').html('visibility')
 						$('#nsfw').addClass('nsfw-avail')
 					}
-					if(json.in_reply_to_id){
+					if (json.in_reply_to_id) {
 						$('#reply').val(json.in_reply_to_id)
 					}
 				}
@@ -464,7 +474,7 @@ function redraft(id, acct_id) {
 }
 //ピン留め
 function pin(id, acct_id) {
-	if ($('#pub_' + id).hasClass('pined')) {
+	if ($(`.cvo[unique-id=${id}]`).hasClass('pined')) {
 		var flag = 'unpin'
 	} else {
 		var flag = 'pin'
@@ -644,13 +654,17 @@ function staEx(mode) {
 			console.error(error)
 		})
 		.then(function(json) {
-			var id = json.statuses[0].id
-			if (mode == 'rt') {
-				rt(id, acct_id, 'remote')
-			} else if (mode == 'fav') {
-				fav(id, acct_id, 'remote')
-			} else if (mode == 'reply') {
-				reEx(id)
+			if (json.statuses) {
+				if (json.statuses[0]) {
+					var id = json.statuses[0].id
+					if (mode == 'rt') {
+						rt(id, acct_id, 'remote')
+					} else if (mode == 'fav') {
+						fav(id, acct_id, 'remote')
+					} else if (mode == 'reply') {
+						reEx(id)
+					}
+				}
 			}
 		})
 	return

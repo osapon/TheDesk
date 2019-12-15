@@ -205,9 +205,11 @@
 					<div class="col s12 mize" style="margin-bottom:5px; padding:0;">
 						<div id="taglist"></div>
 						<div id="preview" class="mize"></div>
-						<span class=" sml mize"><span data-trans="reply">@@replyMode@@</span>:
-							<span id="rec">@@no@@</span>/<span data-trans="file">@@temp@@</span>:
-							<span id="mec">@@nothing@@</span>/@@poll@@:<span id="pollsta">@@no@@</span>
+						<span class=" sml mize"><span>@@replyMode@@</span>:
+							<span id="rec">@@no@@</span>/<span>@@temp@@</span>:
+							<span id="mec">@@nothing@@</span>
+								<a onclick="stamp()" class="pointer" title="@@stampWarn@@">@@stamp@@: <span id="stamp">Off</span></a>
+							/@@poll@@:<span id="pollsta">@@no@@</span>
 							<span id="vis" class="hide">public</span>
 						</span>
 						<br>
@@ -762,19 +764,57 @@
 			<a href="https://thedesk.top" target="_blank">HP</a><br>
 			<a href="https://github.com/cutls/TheDesk" target="_blank">GitHub</a><br>
 			<br>
-			<div id="release-20-0-6_Kawaii" class="release-do" style="display:none; ">><br>
+			<div id="release-20-1-0_Kawaii" class="release-do" style="display:none; ">><br>
 				<a href="https://ja.mstdn.wiki/TheDesk" target="_blank">機能一覧</a><br>
 				Pixiv FanboxやPatreonでは支援者様限定で様々なTheDeskに関する記事をご覧いただけます。最低月一更新。<br>
 				困ったときは、<a href="https://docs.thedesk.top">TheDesk Docs</a>をご覧ください。
-				<h5>Release Note 20.0.6 (Kawaii)</h5>
-				・支援ダイアログが消えない
+				<h5>Release Note 20.1.0 (Kawaii)</h5>
+				・画像のページ送りに失敗する
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
 				</a><br>
-				・ステータスが虚無なことがある
+				・Pleromaのmove通知タイプの対応
 				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
 					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
 				</a><br>
+				・ブーストやお気に入りが解除できなくなるバグの修正(進行中)
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・保存先フォルダが表示されないバグの修正
+				<a onclick="udgEx('micchan83@fedibird.com','main')" class="contributor">
+					<img src="https://user-images.githubusercontent.com/17561618/67261210-a46a7980-f4da-11e9-9c9c-704757d3b1a7.png">micchan83
+				</a>
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a>
+				<br>
+				・ブーストされた投票で最も投票された選択肢の背景色がブースト背景色と一緒で見えにくかった
+				<a onclick="udgEx('kPherox@pl.kpherox.dev','main')" class="contributor">
+					<img src="https://user-images.githubusercontent.com/17561618/66582379-a3714800-ebbc-11e9-8402-d81a35a3be9f.png">kPherox
+				</a>
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・インポートやエクスポートで直接中身をやりとりする方法を追加
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・画像の長辺リサイズ(デフォルトはオフ) 
+				<a onclick="udgEx('popn_ja@popon.pptdn.jp','main')" class="contributor">
+					<img src="https://avatars3.githubusercontent.com/u/24523508?s=88&v=4">kaias1jp
+				</a>
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・画像に自分のアカウント名(acct@aaa.tld)を入れるボタン(アップロード前に押す)
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a><br>
+				・削除して再編集に関するバグの修正
+				<a onclick="udgEx('Cutls@cutls.com','main')" class="contributor">
+					<img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">Cutls
+				</a> 他匿名報告者等<br>
 			</div>
 			<div id="release-en" style="display:none">
 				<h5>Let's make it native!</h5>
@@ -1132,11 +1172,11 @@
 	<div id="support-btm" class="z-depth-4 hide">
 		<div id="support-btm-ja">
 			<h5>ご支援いただけませんか？</h5>
-			(これは支援の有無に関わらず定期的に出ます。)<br>
+			(これは支援の有無に関わらず定期的に出ます。過去のバージョン等で何度も表示される等のバグを確認しております。)<br>
 			あなたのMastodon, Misskeyライフを邪魔してしまって申し訳ありません。<br>
 			乞食のようなマネをしてご支援をお願いするのもどうかと思いますが、少々お時間をください。<br>
-			ご安心ください。インターネット上のフリー百科事典のような高圧的支援要求はいたしません。コーヒーも要求いたしません。<br>
-			(中略)<br>
+			<br>
+			TheDeskになぜ金銭が発生するかについて: 詳細は省きますが、開発者から緊急の連絡をしたりするのに使われます。<br>
 			<b>全てのユーザーが安心してTheDeskを使っていただける環境のため</b>にも、ぜひご支援をご検討ください。ご支援いただけなくても使用不可能になることは全くありません。<br>
 			<b>@@TheDeskDes@@</b>
 		</div>

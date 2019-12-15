@@ -138,13 +138,13 @@ onmessage = function(e) {
 	} else if (e.data[0] == 'udg') {
 		udg(e.data[1][0], e.data[1][1])
 	} else if (e.data[0] == 'media') {
-		media(e.data[1][0], e.data[1][1], e.data[1][2])
+		media(e.data[1][0], e.data[1][1], e.data[1][2], e.data[1][3])
 	} else if (e.data[0] == 'post') {
 		post('pass')
 	} else if (e.data[0] == 'toastSaved') {
 		var show = `${lang.lang_img_DLDone}${
 			e.data[1][0]
-		}<button class="btn-flat toast-action" onclick="openFinder(${e.data[1][1]}')">Show</button>`
+		}<button class="btn-flat toast-action" onclick="openFinder('${e.data[1][1]}')">Show</button>`
 		M.toast({ html: show, displayLength: 5000 })
 	} else if (e.data[0] == 'parseColumn') {
 		parseColumn(e.data[1])

@@ -224,7 +224,10 @@ iframe,
 	margin: -1px 0;
 }
 .bigemoji {
-	width: 60px !important;
+	width: 100px !important;
+	height: auto !important;
+	position: relative;
+	z-index: 9999;
 }
 .faicon_FTL {
 	display: none;
@@ -709,7 +712,8 @@ p:not(:last-child) {
 	position: relative;
 }
 .maxVoter {
-	background-color: var(--shared);
+	background-color: var(--emphasized);
+	filter: brightness(120%);
 }
 .ownMark img {
 	width: 1.2rem !important;
