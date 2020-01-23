@@ -634,7 +634,15 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 								purl = url
 								nsfwmes = '<div class="nsfw-media">Unavailable preview</div>'
 							}
-							viewer = viewer + `<a onclick="imgv('${id}','${key2}','${acct_id}')" id="${id}-image-${key2}" data-url="${url}" data-type="${media.type}" class="img-parsed img-link" style="width:calc(${cwdt}% - 1px); height:${imh};"><img draggable="false" src="${purl}" style="${sense}" class="toot-img pointer" onerror="this.src='../../img/loading.svg'" title="${desc}">${nsfwmes}</a>`
+							viewer =
+								viewer +
+								`<a onclick="imgv('${id}','${key2}','${acct_id}')" 
+										id="${id}-image-${key2}" data-url="${url}" data-original="${media.remote_url}" data-type="${media.type}" 
+										class="img-parsed img-link" style="width:calc(${cwdt}% - 1px); height:${imh};">
+									<img draggable="false" src="${purl}" style="${sense}" class="toot-img pointer" 
+										onerror="this.src='../../img/loading.svg'" title="${escapeHTML(desc)}">
+									${nsfwmes}
+								</a>`
 						}
 					}
 				})
@@ -1040,7 +1048,9 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 						</a>
 					</div>
 					<div class="action ${can_rt} ${disp['rt']} ${noauth}">
-						<a onclick="rt('${toot.id}','${acct_id}','${tlid}')" class="waves-effect waves-dark btn-flat actct bt-btn"
+						<a onclick="rt('${
+							toot.id
+						}','${acct_id}','${tlid}')" class="waves-effect waves-dark btn-flat actct bt-btn"
 							style="padding:0" title="${lang.lang_parse_bt}">
 							<i class="fas fa-retweet ${if_rt} rt_${toot.id}"></i>
 							<span class="rt_ct">${toot.reblogs_count}</span>
@@ -1179,6 +1189,8 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 					}
 				} else if (auth == 'moved') {
 					var ftxt = lang.lang_parse_moved
+				} else if (auth == 'request') {
+					var ftxt = lang.lang_parse_request
 				}
 				console.log(auth, ftxt)
 				if (popup > 0 || popup == -1 || notf) {
@@ -1261,7 +1273,7 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 				}
 				templete =
 					templete +
-					`<div class="cvo" style="padding-top:5px;" user-id="${toot.id}">
+					`<div class="cusr" style="padding-top:5px;" user-id="${toot.id}">
 					<div class="area-notice">${notftext}</div>
 					<div class="area-icon">
 						${udg}
@@ -1281,21 +1293,20 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 								class="sml gray"
 								style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;user-select:auto; cursor:text;"
 							>
-								@ ${toot.acct}${locked}</span
-							>
+								@ ${toot.acct}${locked}</span>
 						</div>
 					</div>
-					<div class="area-toot acct-note">
-						${toot.note.replace(/<br\s?\/?>.+/g, '<span class="gray">...</span>')}
-					</div>
-					<div style="justify-content:space-around;top:5px" class="area-actions">
+					<div class="area-status">
 						<div class="cbadge" style="width:100px;">
 							${lang.lang_status_follow}:${toot.following_count}
 						</div>
 						<div class="cbadge" style="width:100px;">
 							${lang.lang_status_followers}:${toot.followers_count}
 						</div>
-						${latesthtml}${authhtml}
+						${latesthtml}
+					</div>
+					<div class="area-actions" style="justify-content: flex-end;">
+						${authhtml}
 					</div>
 				</div>
 				`

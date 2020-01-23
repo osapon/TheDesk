@@ -94,7 +94,6 @@ function media(b64, type, no, stamped) {
 		postMessage(['stampImage', [b64, user + '@' + domain]], '*')
 		return false
 	}
-	console.log(b64)
 	var l = 4
 	var c = 'abcdefghijklmnopqrstuvwxyz0123456789'
 	var cl = c.length
@@ -143,6 +142,12 @@ function media(b64, type, no, stamped) {
 			var json = httpreq.response
 			if (this.status !== 200) {
 				setLog(start, this.status, json)
+				$('.toot-btn-group').prop('disabled', false)
+				$('select').formSelect()
+				$('#mec').text(lang.lang_there)
+				M.toast({ html: this.status + ':' +json, displayLength: 2000 })
+				$('#imgup').text('')
+				$('#imgsel').show()
 			}
 			if (!json.id) {
 				todc()
