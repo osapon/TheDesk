@@ -1,17 +1,17 @@
-let ver = '20.1.1 (Kawaii)'
+let ver = '20.1.2 (Kawaii)'
 if (process.argv.indexOf('--automatic') === -1) {
 	let input = require('readline-sync').question('version string [empty: ' + ver + ' (default)]? ')
 	if (input) {
 		ver = input
 	}
-	//var basefile="../../"
-} else {
-	//var basefile="./"
 }
-//const { app } = require('electron');
+var pwa = false
+if (process.argv.indexOf('--pwa') > 0) {
+	var pwa = true
+}
 const path = require('path')
 const basefile = path.join(__dirname, '../../')
-function main(ver, basefile) {
+function main(ver, basefile, pwa) {
 	const fs = require('fs')
 	const execSync = require('child_process').execSync
 	let gitHash = execSync('git rev-parse HEAD')
@@ -138,11 +138,19 @@ function main(ver, basefile) {
 			source = source.replace(/@@gitHashShort@@/g, gitHash.slice(0, 7))
 			source = source.replace(/@@lang@@/g, lang)
 			source = source.replace(/@@langlist@@/g, langstr)
+			if(pwa) {
+				source = source.replace(/@@pwa@@/g, `<link rel="manifest" href="/manifest.json" />
+				<script>var pwa = true;"serviceWorker"in navigator&&navigator.serviceWorker.register("/sw.pwa.js").then(e=>{});</script>`)
+				source = source.replace(/@@node_base@@/g, 'dependencies')
+			} else {
+				source = source.replace(/@@pwa@@/g, '<script>var pwa = false;</script>')
+				source = source.replace(/@@node_base@@/g, 'node_modules')
+			}
 			fs.writeFileSync(basefile + 'view/' + lang + '/' + pages[i], source)
 		}
 	}
 }
-main(ver, basefile)
+main(ver, basefile, pwa)
 
 //if --watch, to yarn dev
 if (process.argv.indexOf('--watch') !== -1) {

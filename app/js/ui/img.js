@@ -102,6 +102,13 @@ function imageXhr(id, key, murl) {
 		},
 		false
 	)
+	xhr.addEventListener(
+		'error',
+		function(event) {
+			$('#imgmodal').attr('src', murl)
+		},
+		false
+	)
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			r = new FileReader()
@@ -112,19 +119,22 @@ function imageXhr(id, key, murl) {
 				var width
 				element.onload = function() {
 					var width = element.naturalWidth
+					if(width < 650) {
+						width = 650;
+					}
 					var height = element.naturalHeight
 					var windowH = $(window).height()
 					var windowW = $(window).width()
 					$('#imagemodal').css('bottom', '0')
 					$('#imagemodal img').css('width', 'auto')
 					if (height < windowH) {
-						$('#imagemodal').css('height', height + 60 + 'px')
-						$('#imagemodal img').css('height', '100%')
+						$('#imagemodal').css('height', height + 100 + 'px')
+						$('#imagemodal img').css('height',  height + 'px')
 						if (width > windowW * 0.8) {
 							$('#imagemodal').css('width', '80vw')
-							$('#imagemodal img').css('width', '100%')
+							$('#imagemodal img').css('width', 'auto')
 							var heightS = ((windowW * 0.8) / width) * height
-							$('#imagemodal').css('height', heightS + 60 + 'px')
+							$('#imagemodal').css('height', heightS + 100 + 'px')
 						} else {
 							$('#imagemodal').css('width', width + 'px')
 						}

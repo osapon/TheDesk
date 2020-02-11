@@ -46,10 +46,17 @@ $(document).on('click', 'a', e => {
 					udgEx(url, 'main')
 					return false
 				} else {
-					postMessage(['openUrl', url], '*')
+					if(pwa) {
+						return true
+					} else {
+						postMessage(['openUrl', url], '*')
+					}
 				}
 			}
 		} else {
+			if(pwa) {
+				return true
+			}
 			//hrefがhttp/httpsならブラウザで
 			if (urls) {
 				if (urls[0]) {
@@ -188,5 +195,25 @@ onmessage = function(e) {
 			type: 'info',
 			title: e.data[1]
 		})
+	}
+}
+/* PWA */
+if(pwa) {
+	function postMessage(e) {
+		if (e[0] == 'openUrl') {
+			urls = e[1].match(/https?:\/\/(.+)/)
+			if (urls) {
+				Swal.fire({
+					title: 'Open URL',
+					icon: 'info',
+					html:
+					  `If you are OK, click: <a href="${urls[0]}" target="_blank" class="btn waves-effect">Here</a>`,
+					showCloseButton: false,
+					showCancelButton: true,
+					focusConfirm: false,
+					confirmButtonText: 'Close'
+				  })
+			}
+		}
 	}
 }

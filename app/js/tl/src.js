@@ -36,7 +36,7 @@ function src(mode, offset) {
 		var user = $('#his-data').attr('user-id')
 	}
 	if (!mode) {
-		var start = 'https://' + domain + '/api/v2/search?resolve=true&q=' + q + add
+		var start = 'https://' + domain + '/api/v2/search?resolve=true&q=' + encodeURIComponent(q) + add
 	} else {
 		var start = 'https://' + domain + '/api/v1/search?q=' + q
 	}
@@ -218,7 +218,7 @@ function graphDraw(tag, acct_id) {
 	var his = tag.history
 	return graphDrawCore(his, tag)
 }
-function graphDrawCore(his, tag){
+function graphDrawCore(his, tag) {
 	var max = Math.max.apply(null, [
 		his[0].uses,
 		his[1].uses,
@@ -252,7 +252,9 @@ function graphDrawCore(his, tag){
 					toot
 				</div>
 				<div class="tagCompTag">
-					<a onclick="tl('tag','${escapeHTML(tag.name)}','${acct_id}','add')" class="pointer" title="${escapeHTML(tag.name)}">
+					<a onclick="tl('tag','${escapeHTML(
+						tag.name
+					)}','${acct_id}','add')" class="pointer" title="${escapeHTML(tag.name)}">
 						#${escapeHTML(tag.name)}
 					</a>
 				</div>
@@ -307,4 +309,49 @@ function trend() {
 				$('#src-contents').append(tags)
 			})
 		})
+}
+function srcBox(mode) {
+	var selectedText = window.getSelection().toString()
+	if (mode == 'open') {
+		$('#pageSrc').removeClass('hide')
+	} else if (mode == 'close') {
+		if(!selectedText) {
+			$('#pageSrc').addClass('hide')
+			$('#pageSrc').removeClass('keep')
+		}
+	} else {
+		$('#pageSrc').toggleClass('hide')
+	}
+	if(!$('#pageSrc').hasClass('keep')) {
+		$('#pageSrcInput').val(selectedText)
+	}
+}
+$('#pageSrcInput').click(function() {
+	$('#pageSrc').addClass('keep')
+})
+$('#pageSrcInput').on('input', function(evt) {
+	if(!$('#pageSrcInput').val()) {
+		$('#pageSrc').removeClass('keep')
+	}
+})
+document.addEventListener('selectionchange', function() {
+	var selectedText = window.getSelection().toString()
+	if (selectedText && !$('input').is(':focus') && !$('textarea').is(':focus')) {
+		srcBox('open')
+	}
+})
+function doSrc(type) {
+	$('#pageSrc').addClass('hide')
+	$('#pageSrc').removeClass('keep')
+	var q = $('#pageSrcInput').val()
+	if(type == 'web') {
+		var start = localStorage.getItem('srcUrl')
+		if(!start) {
+			start = 'https://google.com/search?q={q}'
+		}
+		start = start.replace(/{q}/, q)
+		postMessage(["openUrl", start], "*")
+	} else if(type == 'ts') {
+		tsAdd(q)
+	}
 }
