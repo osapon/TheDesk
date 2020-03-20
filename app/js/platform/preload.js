@@ -1,6 +1,26 @@
 var electron = require('electron')
 const shell = electron.shell
 var ipc = electron.ipcRenderer
+//title bar
+const customTitlebar = require('custom-electron-titlebar')
+window.addEventListener('DOMContentLoaded', () => {
+	ipc.send('frameCheck', '')
+	ipc.on('frame', function(event, args) {
+		const file = location.href.substr(-10)
+		if (
+			file == 'index.html' ||
+			file == '/acct.html' ||
+			file == 'tting.html'
+		) {
+			new customTitlebar.Titlebar({
+				backgroundColor: customTitlebar.Color.fromHex('#000'),
+				titleHorizontalAlignment: 'right',
+				icon: '../../img/desk.png'
+			})
+		}
+		})
+})
+
 onmessage = function(e) {
 	if (e.data[0] == 'openUrl') {
 		urls = e.data[1].match(/https?:\/\/(.+)/)
@@ -48,6 +68,8 @@ onmessage = function(e) {
 		ipc.send('theme-json-request', e.data[1])
 	} else if (e.data[0] == 'ha') {
 		ipc.send('ha', e.data[1])
+	} else if (e.data[0] == 'frameSet') {
+		ipc.send('frameSet', e.data[1])
 	} else if (e.data[0] == 'ua') {
 		ipc.send('ua', e.data[1])
 	} else if (e.data[0] == 'aboutData') {
