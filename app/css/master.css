@@ -24,8 +24,17 @@ body {
 .markdown {
 	display: none;
 }
-help {
-	display: none;
+.accessMark {
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	background-color: var(--emphasized);
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.accessibility .scr {
+	display: none !important;
 }
 .show-help {
 	display: inline;
@@ -342,21 +351,22 @@ blockquote:before,
 #left-menu {
 	width: 230px;
 }
-#left-menu div {
+#left-menu a {
 	padding-left: 5px;
 	width: 100%;
 	height: 50px;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	color: var(--color);
 }
-#left-menu div:hover {
+#left-menu a:hover {
 	background-color: var(--beforehover);
 }
 #left-menu span {
 	margin-left: 5px;
 }
-#left-menu div.active {
+#left-menu a.active {
 	background-color: var(--emphasized);
 }
 #right-menu {
@@ -376,6 +386,7 @@ blockquote:before,
 	width: 170px;
 	height: 40px;
 	cursor: pointer;
+	color: var(--color);
 }
 #tltype .type span {
 	width: calc(100% - 30px);
@@ -513,6 +524,13 @@ textarea {
 }
 #pageSrcInput {
   width: 160px;
+}
+.voice {
+	clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
 }
 
 @media (max-width: 500px) {

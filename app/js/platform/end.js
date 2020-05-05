@@ -140,6 +140,7 @@ function nano() {
 	postMessage(['nano', null], '*')
 }
 onmessage = function(e) {
+	console.log(e)
 	if (e.data[0] == 'details') {
 		details(e.data[1][0], e.data[1][1])
 	} else if (e.data[0] == 'udg') {
@@ -149,10 +150,10 @@ onmessage = function(e) {
 	} else if (e.data[0] == 'post') {
 		post('pass')
 	} else if (e.data[0] == 'toastSaved') {
-		var show = `${lang.lang_img_DLDone}${
+		var showTxt = `${lang.lang_img_DLDone}${
 			e.data[1][0]
 		}<button class="btn-flat toast-action" onclick="openFinder('${e.data[1][1]}')">Show</button>`
-		M.toast({ html: show, displayLength: 5000 })
+		M.toast({ html: showTxt, displayLength: 5000 })
 	} else if (e.data[0] == 'parseColumn') {
 		parseColumn(e.data[1])
 	} else if (e.data[0] == 'exportSettingsCore') {
@@ -186,6 +187,10 @@ onmessage = function(e) {
 		asRead()
 	} else if (e.data[0] == 'asReadEnd') {
 		asReadEnd()
+	} else if (e.data[0] == 'accessibility') {
+		console.log('atrue')
+		$('body').addClass('accessibility')
+		$('.window-title').before('<div class="accessMark">Screen Reader Optimized</div>')
 	} else if (e.data[0] == 'logData') {
 		$('#logs').val(e.data[1])
 		var obj = document.getElementById('logs')

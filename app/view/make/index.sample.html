@@ -62,7 +62,7 @@
 		<div id="tl">
 			<!--TL-->
 			<!--スターター-->
-			<div id="start">
+			<div id="start" class="scr">
 				<div id="start-content">
 					<h3 class="center">@@demoBottomBtns@@</h3>
 					@@lookAtBottom@@
@@ -442,10 +442,13 @@
 					<!-- その他 Dropdown Structure -->
 					<ul id="dropdown2" class="dropdown-content">
 						<li>
-							<a onclick="nowplaying('spotify');">@@NPSpotify@@</a>
+							<a onclick="nowplaying('spotify');">NowPlaying (Spotify)</a>
 						</li>
 						<li>
-							<a onclick="nowplaying('itunes');">@@NPiTunes@@</a>
+							<a onclick="nowplaying('itunes');">NowPlaying (iTunes macOS)</a>
+						</li>
+						<li>
+							<a onclick="nowplaying('lastFm');">NowPlaying (Last.fm)</a>
 						</li>
 						<li>
 							<a onclick="schedule();">@@schedule@@</a>
@@ -1183,21 +1186,24 @@
 			<button onclick="$('#askjp_jp_ua').addClass('hide')" class="btn waves-effect">閉じる</button>
 		</div>
 		<!-- Modal Structure Release Note-->
-		<div id="releasenote" class="modal modal-fixed-footer">
+		<div id="releasenote" class="modal modal-fixed-footer scr">
 			<div class="modal-content">
 				<h3>TheDesk</h3>
 				<a href="https://thedesk.top" target="_blank">HP</a><br />
 				<a href="https://github.com/cutls/TheDesk" target="_blank">GitHub</a><br />
 				<br />
-				<div id="release-20-3-2_Kawaii" class="release-do" style="display:none; ">
+				<div id="release-20-3-3_Kawaii" class="release-do" style="display:none; ">
 					<br />
 					<a href="https://ja.mstdn.wiki/TheDesk" target="_blank">機能一覧</a><br />
 					Pixiv
 					FanboxやPatreonでは支援者様限定で様々なTheDeskに関する記事をご覧いただけます。最低月一更新。<br />
 					困ったときは、<a href="https://docs.thedesk.top">TheDesk Docs</a>をご覧ください。
-					<h5>Release Note 20.3.2 (Kawaii)</h5>
-					・Pleromaでメディアアップロードができない不具合  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://camo.githubusercontent.com/b1d23096a6a73ac5a67cdc4bbd00568d4f2641ce/68747470733a2f2f6d656469612e7468656465736b2e746f702f6163636f756e74732f617661746172732f3030302f3030302f3030312f6f726967696e616c2f643334656638626234396435653031312e706e67">cutls</a><br>
-					
+					<h5>Release Note 20.3.3 (Kawaii)</h5>
+					・アクセシビリティの改善  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・アナウンス表示がずれる不具合の修正  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・ハッシュタグタイムラインのタグの編集に対応  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・ダウンロード時にファイルサイズを表示  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+
 				</div>
 				<div id="release-en" style="display:none">
 					<h5>Let's make it native!</h5>
@@ -1264,30 +1270,30 @@
 			</span>
 			<div id="menu-wrapper">
 				<div id="left-menu">
-					<div class="waves-effect active" onclick="addColumnMenu()" id="addColumnMenu">
-						<i class="material-icons">add</i><span>@@addColumn@@</span>
-					</div>
-					<div class="waves-effect" onclick="sortMenu()" id="sortMenu">
-						<i class="material-icons">sort</i><span>@@sortColumns@@</span>
-					</div>
-					<div class="waves-effect" onclick="searchMenu()" id="searchMenu">
-						<i class="material-icons">search</i><span>@@search@@</span>
-					</div>
-					<div class="waves-effect" onclick="listMenu()" id="listMenu">
-						<i class="material-icons">view_headline</i><span>@@list@@</span>
-					</div>
-					<div class="waves-effect" onclick="dirMenu()" id="dirMenu">
-						<i class="material-icons">recent_actors</i><span>@@directory@@</span>
-					</div>
-					<div class="waves-effect" onclick="filterMenu()" id="filterMenu">
-						<i class="material-icons">filter_list</i><span>@@filter@@</span>
-					</div>
-					<div class="waves-effect" onclick="help()" id="helpMenu">
-						<i class="material-icons">help_outline</i><span>@@helpAndLogs@@</span>
-					</div>
-					<div class="waves-effect" onclick="location.href='index.html'">
-						<i class="material-icons">refresh</i><span>@@f5@@</span>
-					</div>
+					<a class="waves-effect active" onclick="addColumnMenu()" id="addColumnMenu">
+						<i class="material-icons" aria-hidden="true">add</i><span>@@addColumn@@</span>
+					</a>
+					<a class="waves-effect" onclick="sortMenu()" id="sortMenu">
+						<i class="material-icons" aria-hidden="true">sort</i><span>@@sortColumns@@</span>
+					</a>
+					<a class="waves-effect" onclick="searchMenu()" id="searchMenu">
+						<i class="material-icons" aria-hidden="true">search</i><span>@@search@@</span>
+					</a>
+					<a class="waves-effect" onclick="listMenu()" id="listMenu">
+						<i class="material-icons" aria-hidden="true">view_headline</i><span>@@list@@</span>
+					</a>
+					<a class="waves-effect" onclick="dirMenu()" id="dirMenu">
+						<i class="material-icons" aria-hidden="true">recent_actors</i><span>@@directory@@</span>
+					</a>
+					<a class="waves-effect" onclick="filterMenu()" id="filterMenu">
+						<i class="material-icons" aria-hidden="true">filter_list</i><span>@@filter@@</span>
+					</a>
+					<a class="waves-effect" onclick="help()" id="helpMenu">
+						<i class="material-icons" aria-hidden="true">help_outline</i><span>@@helpAndLogs@@</span>
+					</a>
+					<a class="waves-effect" onclick="location.href='index.html'">
+						<i class="material-icons" aria-hidden="true">refresh</i><span>@@f5@@</span>
+					</a>
 				</div>
 				<div id="right-menu">
 					<!--カラム追加-->
@@ -1308,46 +1314,46 @@
 								<input type="hidden" value="local" id="type-sel" />
 								@@showThisTL@@
 								<div id="tltype">
-									<div class="type waves-effect active" data-type="local">
-										<div><i class="material-icons">people_outline</i></div>
+									<a class="type waves-effect active" data-type="local">
+										<div><i class="material-icons" aria-hidden="true">people_outline</i></div>
 										<span>@@local@@</span>
-									</div>
-									<div class="type waves-effect" data-type="local-media">
-										<div><i class="material-icons">perm_media</i></div>
+									</a>
+									<a class="type waves-effect" data-type="local-media">
+										<div><i class="material-icons" aria-hidden="true">perm_media</i></div>
 										<span>@@localMedia@@</span>
-									</div>
-									<div class="type waves-effect" data-type="home">
-										<div><i class="material-icons">home</i></div>
+									</a>
+									<a class="type waves-effect" data-type="home">
+										<div><i class="material-icons" aria-hidden="true">home</i></div>
 										<span>@@home@@</span>
-									</div>
-									<div class="type waves-effect" data-type="pub">
-										<div><i class="material-icons">language</i></div>
+									</a>
+									<a class="type waves-effect" data-type="pub">
+										<div><i class="material-icons" aria-hidden="true">language</i></div>
 										<span>@@fed@@</span>
-									</div>
-									<div class="type waves-effect" data-type="pub-media">
-										<div><i class="material-icons">perm_media</i></div>
+									</a>
+									<a class="type waves-effect" data-type="pub-media">
+										<div><i class="material-icons" aria-hidden="true">perm_media</i></div>
 										<span>@@fedMedia@@</span>
-									</div>
-									<div class="type waves-effect" data-type="dm">
-										<div><i class="material-icons">mail_outline</i></div>
+									</a>
+									<a class="type waves-effect" data-type="dm">
+										<div><i class="material-icons" aria-hidden="true">mail_outline</i></div>
 										<span>@@dm@@</span>
-									</div>
-									<div class="type waves-effect" data-type="mix">
-										<div><i class="material-icons">merge_type</i></div>
+									</a>
+									<a class="type waves-effect" data-type="mix">
+										<div><i class="material-icons" aria-hidden="true">merge_type</i></div>
 										<span>@@integratedTLDes@@</span>
-									</div>
-									<div class="type waves-effect" data-type="plus">
-										<div><i class="material-icons">reply</i></div>
+									</a>
+									<a class="type waves-effect" data-type="plus">
+										<div><i class="material-icons" aria-hidden="true">reply</i></div>
 										<span>@@localPlusDes@@</span>
-									</div>
-									<div class="type waves-effect" data-type="notf">
-										<div><i class="material-icons">notifications</i></div>
+									</a>
+									<a class="type waves-effect" data-type="notf">
+										<div><i class="material-icons" aria-hidden="true">notifications</i></div>
 										<span>@@notf@@</span>
-									</div>
-									<div class="type waves-effect" data-type="bookmark">
-										<div><i class="material-icons">bookmark</i></div>
+									</a>
+									<a class="type waves-effect" data-type="bookmark">
+										<div><i class="material-icons" aria-hidden="true">bookmark</i></div>
 										<span>@@bookmark@@</span>
-									</div>
+									</a>
 								</div>
 							</div>
 							<div id="noauth" class="hide">
@@ -1531,6 +1537,10 @@
 							<input type="checkbox" class="filled-in" id="conv_filter" value="thread" />
 							<span>@@conver@@</span>
 						</label>
+						<label>
+							<input type="checkbox" class="filled-in" id="prof_filter" value="profiles" />
+							<span>@@prof@@</span>
+						</label><br />
 						@@option@@<br />
 						<label>
 							<input type="checkbox" class="filled-in" id="wholeword_filter" value="1" />
@@ -1703,7 +1713,7 @@
 			</div>
 		</div>
 		<!--Support me-->
-		<div id="support-btm" class="z-depth-4 hide">
+		<div id="support-btm" class="z-depth-4 hide scr">
 			<div id="support-btm-ja">
 				<h5>ご支援いただけませんか？</h5>
 				(これは支援の有無に関わらず定期的に出ます。過去のバージョン等で何度も表示される等のバグを確認しております。)<br />
