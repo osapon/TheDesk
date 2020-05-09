@@ -1,6 +1,7 @@
 //バージョンチェッカー
 function verck(ver, jp) {
 	console.log('%c Welcome😊 ' + ver, 'color: red;font-size:200%;')
+	$('body').addClass(localStorage.getItem('platform'))
 	var date = new Date()
 	var showVer = false
 	if (localStorage.getItem('ver') != ver && localStorage.getItem('winstore')) {
@@ -18,7 +19,7 @@ function verck(ver, jp) {
 		showVer = true
 		console.log('%c Thank you for your update🎉', 'color: red;font-size:200%;')
 		$(document).ready(function() {
-			if (localStorage.getItem('winstore')) {
+			if (localStorage.getItem('winstore') && !pwa) {
 				$('#releasenote').modal('open')
 			}
 			verp = ver.replace('(', '')
@@ -68,7 +69,7 @@ function verck(ver, jp) {
 	}
 	var platform = localStorage.getItem('platform')
 	console.log('Your platform:' + platform)
-	if (!localStorage.getItem('winstore')) {
+	if (!localStorage.getItem('winstore') && !pwa) {
 		$('#start').css('display', 'flex')
 	}
 	if (
@@ -353,6 +354,7 @@ function storeDialog(platform, ver) {
 			}
 			localStorage.setItem('ver', ver)
 			showVer = true
+			if(pwa) return false
 			console.log('%c Thank you for your update🎉', 'color: red;font-size:200%;')
 			$(document).ready(function() {
 				$('#releasenote').modal('open')
@@ -376,6 +378,7 @@ function storeDialog(platform, ver) {
 			showVer = true
 			console.log('%c Thank you for your update🎉', 'color: red;font-size:200%;')
 			$(document).ready(function() {
+				if(pwa) return false
 				$('#releasenote').modal('open')
 				verp = ver.replace('(', '')
 				verp = verp.replace('.', '-')

@@ -602,14 +602,14 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					var purl = media.preview_url
 					media_ids = media_ids + media.id + ','
 					var url = media.url
-					var nsfwmes = ""
-					var sense = ""
+					var nsfwmes = ''
+					var sense = ''
 					if (toot.sensitive && nsfw) {
 						nsfwmes = '<div class="nsfw-media">' + lang.lang_parse_nsfw + '</div>'
 						var blur_strength = localStorage.getItem('blur-strength')
 						sense = `filter:blur(${blur_strength}px);`
 					}
-					if (media.pleroma && media.pleroma.mime_type.indexOf("video") !== -1) {
+					if (media.pleroma && media.pleroma.mime_type.indexOf('video') !== -1) {
 						viewer =
 							viewer +
 							`<a onclick="imgv('${id}','${key2}','${acct_id}')" id="${id}-image-${key2}" 
@@ -635,7 +635,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 								var desc = ''
 							}
 							console.log('https://' + domain + '/storage/no-preview.png')
-							if (media.preview_url == 'https://' + domain + '/storage/no-preview.png' ) {
+							if (media.preview_url == 'https://' + domain + '/storage/no-preview.png') {
 								purl = url
 								nsfwmes = '<div class="nsfw-media">Unavailable preview</div>'
 							}
