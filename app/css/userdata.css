@@ -1,7 +1,7 @@
 /*アイコンをクリックした時とかにでてくるユーザーデータ*/
 #his-data {
   background-repeat: no-repeat;
-  background-image: url("../../loading.svg");
+  background-image: url("../img/loading.svg");
   overflow-y: hidden;
 }
 #his-data .btn .material-icons{
@@ -37,10 +37,6 @@
 }
 #his-basic-prof {
   min-height: 130px;
-}
-#his-matching-list {
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 #his-field {
   vertical-align: baseline;

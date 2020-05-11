@@ -24,10 +24,14 @@ function dl(mainWindow, lang_path, base, dirname) {
 				height: 400,
 				transparent: false, // ウィンドウの背景を透過
 				frame: false, // 枠の無いウィンドウ
-				resizable: false
+				resizable: false,
+				show: false
 			})
 			var lang = fs.readFileSync(lang_path, 'utf8')
 			updatewin.loadURL(base + lang + '/update.html')
+			updatewin.webContents.once('dom-ready', () => {
+				updatewin.show()
+			 })
 			return 'true'
 		} else {
 			return false
@@ -36,7 +40,7 @@ function dl(mainWindow, lang_path, base, dirname) {
 	//アプデDL
 	ipc.on('download-btn', async (e, args) => {
 		function dl(url, file, dir, e) {
-			e.sender.webContents.send('mess', 'ダウンロードを開始します。')
+			e.sender.webContents.send('mess', 'Start...')
 			const opts = {
 				directory: dir,
 				filename: file,
@@ -91,6 +95,7 @@ function dl(mainWindow, lang_path, base, dirname) {
 		var name = ''
 		var platform = process.platform
 		var bit = process.arch
+		const filename = args[0].match(/https:\/\/.+\/(.+\..+)$/)
 		if (args[1] == '') {
 			if (platform == 'win32') {
 				var dir = app.getPath('home') + '\\Pictures\\TheDesk'
@@ -111,11 +116,21 @@ function dl(mainWindow, lang_path, base, dirname) {
 		}
 		download(BrowserWindow.getFocusedWindow(), args[0], opts)
 			.then(dl => {
-				event.sender.webContents.send('general-dl-message', dir)
+				if(filename[1]) {
+					if (platform == 'win32') {
+						var name = dir + '\\' + filename[1]
+					} else if (platform == 'linux' || platform == 'darwin') {
+						var name = dir + '/' + filename[1]
+					}
+				} else {
+					var name = dir
+				}
+				event.sender.webContents.send('general-dl-message', name)
 			})
 			.catch(console.error)
 	})
-	ipc.on('open-finder', (e, folder) => {
+	ipc.on('openFinder', (e, folder) => {
+		console.log(folder)
 		shell.showItemInFolder(folder)
 	})
 }

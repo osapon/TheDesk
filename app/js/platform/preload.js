@@ -4,6 +4,7 @@ var ipc = electron.ipcRenderer
 //title bar
 const customTitlebar = require('custom-electron-titlebar')
 window.addEventListener('DOMContentLoaded', () => {
+	document.title = 'TheDesk'
 	ipc.send('acsCheck', '')
 	ipc.send('frameCheck', '')
 	ipc.on('frame', function(event, args) {
@@ -48,7 +49,7 @@ onmessage = function(e) {
 	} else if (e.data[0] == 'generalDL') {
 		ipc.send('general-dl', e.data[1])
 	} else if (e.data[0] == 'openFinder') {
-		ipc.send('open-finder', e.data[1])
+		ipc.send('openFinder', e.data[1])
 	} else if (e.data[0] == 'columnDel') {
 		ipc.send('column-del', e.data[1])
 	} else if (e.data[0] == 'lang') {
@@ -155,12 +156,12 @@ ipc.on('resizeJudgement', function(event, b64) {
 			var width = element.naturalWidth
 			var height = element.naturalHeight
 			if (width > resize || height > resize) {
-				ipc.send('resize-image', [b64, resize])
+				ipc.send('resize-image', [b64[0], resize])
 			} else {
 				postMessage(['media', [b64[0], 'image/png', b64[1]]], '*')
 			}
 		}
-		element.src = b64
+		element.src = 'data:image/png;base64,' + b64[0]
 	} else {
 		postMessage(['media', [b64[0], 'image/png', b64[1]]], '*')
 	}
@@ -170,7 +171,7 @@ ipc.on('general-dl-prog', function(event, arg) {
 	console.log('Progress: ' + arg)
 })
 ipc.on('general-dl-message', function(event, arg) {
-	var argC = arg.replace(/\\/g, '\\\\') + '\\\\.'
+	var argC = arg.replace(/\\/g, '\\\\')
 	console.log('saved')
 	postMessage(['toastSaved', [arg, argC]], '*')
 })
