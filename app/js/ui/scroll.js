@@ -23,8 +23,8 @@ function scrollck() {
 				ueload(tlid)
 			}
 			//自動リフレッシュ
-			if (len > 30) {
-				for (var i = 30; i < $('#timeline_' + tlid + ' .cvo').length; i++) {
+			if (len > 100) {
+				for (var i = 100; i < $('#timeline_' + tlid + ' .cvo').length; i++) {
 					$('#timeline_' + tlid + ' .cvo')
 						.eq(i)
 						.remove()
