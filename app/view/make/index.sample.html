@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="@@lang@@">
 	<head>
-		<link href="../../css/themes.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="../../js/ui/theme.js"></script>
+		<link href="../../css/themes.css" type="text/css" rel="stylesheet">
 		<meta content="width=device-width,initial-scale=1.0" name="viewport" />
 		<link
 			href="../../@@node_base@@/materialize-css/dist/css/materialize.css"
@@ -31,7 +31,7 @@
 			_jipt.push(['project', 'thedesk'])
 		</script>
 		<script type="text/javascript" src="https://cdn.crowdin.com/jipt/jipt.js"></script>
-		@@comment-end@@ @@pwa@@
+		@@comment-end@@ @@pwa@@ @@store@@
 	</head>
 
 	<body class="@@pwaClass@@">
@@ -69,7 +69,7 @@
 					<div id="demobottom">
 						<button
 							class="btn waves-effect"
-							style="width: 23rem;height: 2.5rem;line-height: 0;margin: 0; background-color: var(--accentbtn);"
+							style="width: 23rem;height: 2.5rem;line-height: 0;margin: 0; background-color: var(--active);"
 						>
 							<i
 								class="material-icons"
@@ -123,7 +123,6 @@
 				</div>
 			</div>
 		</div>
-		<div id="contextWrap" class="hide"></div>
 		<div id="post-box" class="z-depth-5">
 			<div id="post-bar" class="drag-bar">
 				<span id="unreact">@@post-new@@</span><span id="addreact" class="hide">Reaction</span>
@@ -417,9 +416,6 @@
 					</div>
 					<!-- 公開範囲 Dropdown Structure -->
 					<ul id="dropdown1" class="dropdown-content">
-						<li style="font-size: 1.2rem; display: block; line-height: 1.69rem; padding: 1.1rem 1.23rem;">
-							@@selectVis@@
-						</li>
 						<li>
 							<a onclick="vis('public')">@@publicJP@@(Public)</a>
 						</li>
@@ -1127,16 +1123,22 @@
 				<a href="https://thedesk.top" target="_blank">HP</a><br />
 				<a href="https://github.com/cutls/TheDesk" target="_blank">GitHub</a><br />
 				<br />
-				<div id="release-21-0-5_Mayu" class="release-do" style="display:none; ">
+				<div id="release-21-2-2_Mayu" class="release-do" style="display:none; ">
 					<br />
 					<a href="https://ja.mstdn.wiki/TheDesk" target="_blank">機能一覧</a><br />
 					Pixiv
 					FanboxやPatreonでは支援者様限定で様々なTheDeskに関する記事をご覧いただけます。最低月一更新。<br />
 					困ったときは、<a href="https://docs.thedesk.top">TheDesk Docs</a>をご覧ください。
-					<h5>Release Note 21.0.4 (Mayu)</h5>
+					<h5>Release Note 21.2.2 (Mayu)</h5>
+					<h5>Release Note 21.2.1 (Mayu)</h5>
+					<h5>Release Note 21.2.0 (Mayu)</h5>
 					<!--上のdivのidも変えてね-->
-					・Spotify連携を再設計(全員再ログインをお願いします)  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
-・InstanceTickerを廃止し、OpenStickerを導入  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a> <br>
+					・テーマが自由かつ高度に編集可能に  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・一部のインスタンスで通知タイムラインが出なかった  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・カスタム通知音に関するバグの修正  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・カラム設定のリデザイン  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・Intgrated TLのストリーミングが古いインスタンスで不可能だった  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
+・検索に使用したアカウントと別のアカウントでタグTLが追加されてしまうバグの修正  <a onclick="udgEx('Cutls@cutls.com','main')" class="contributor"><img src="https://media.thedesk.top/accounts/avatars/000/000/001/original/d34ef8bb49d5e011.png">cutls</a><br>
 
 				</div>
 				<div id="release-en" style="display:none">

@@ -621,7 +621,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 							var mty = media.remote_url.match(/.+(\..+)$/)[1]
 							viewer =
 								viewer +
-								`<a href="${media.remote_url}" title="${media.remote_url}">[${lang.lang_parse_unknown}(${mty})]</a> `
+								`<a href="${media.url ? media.url : media.remote_url}" title="${media.remote_url} from ${media.url}">[${lang.lang_parse_unknown}(${mty})]</a> `
 						} else if (media.type == 'audio') {
 							viewer =
 								viewer +
@@ -894,12 +894,10 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 			}
 			//日本語じゃない
 			if (toot.language != lang.language && toot.language) {
-				var trans = `<div class="">
-						<a onclick="trans('${toot.language}','${lang.language}', $(this))" 
-							class="waves-effect waves-dark btn-flat actct" style="padding:0">
+				var trans = `<li onclick="trans('${toot.language}','${lang.language}', $(this))" 
+							 style="padding:0">
 								<i class="material-icons" aria-hidden="true">g_translate</i>${lang.lang_parse_trans}
-						</a>
-					</div>`
+					</li>`
 			} else {
 				var trans = ''
 			}
@@ -927,20 +925,20 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 							var fontColor = value.fontColor
 							if (!value.bgColor || !value.fontColor) {
 								if (value.type == 'mastodon') {
-									if(!value.bgColor) bgColor = tickerdataRaw.default.mastodon.bgColor
-									if(!value.fontColor) fontColor = tickerdataRaw.default.mastodon.fontColor
+									if (!value.bgColor) bgColor = tickerdataRaw.default.mastodon.bgColor
+									if (!value.fontColor) fontColor = tickerdataRaw.default.mastodon.fontColor
 								} else if (value.type == 'pleroma') {
-									if(!value.bgColor) bgColor = tickerdataRaw.default.pleroma.bgColor
-									if(!value.fontColor) fontColor = tickerdataRaw.default.pleroma.fontColor
+									if (!value.bgColor) bgColor = tickerdataRaw.default.pleroma.bgColor
+									if (!value.fontColor) fontColor = tickerdataRaw.default.pleroma.fontColor
 								} else if (value.type == 'misskey') {
-									if(!value.bgColor) bgColor = tickerdataRaw.default.misskey.bgColor
-									if(!value.fontColor) fontColor = tickerdataRaw.default.misskey.fontColor
+									if (!value.bgColor) bgColor = tickerdataRaw.default.misskey.bgColor
+									if (!value.fontColor) fontColor = tickerdataRaw.default.misskey.fontColor
 								} else if (value.type == 'misskeylegacy') {
-									if(!value.bgColor) bgColor = tickerdataRaw.default.misskeylegacy.bgColor
-									if(!value.fontColor) fontColor = tickerdataRaw.default.misskeylegacy.fontColor
+									if (!value.bgColor) bgColor = tickerdataRaw.default.misskeylegacy.bgColor
+									if (!value.fontColor) fontColor = tickerdataRaw.default.misskeylegacy.fontColor
 								} else if (value.type == 'pixelfed') {
-									if(!value.bgColor) bgColor = tickerdataRaw.default.pixelfed.bgColor
-									if(!value.fontColor) fontColor = tickerdataRaw.default.pixelfed.fontColor
+									if (!value.bgColor) bgColor = tickerdataRaw.default.pixelfed.bgColor
+									if (!value.fontColor) fontColor = tickerdataRaw.default.pixelfed.fontColor
 								}
 							} else {
 								var bgColor = value.bgColor
@@ -1125,8 +1123,8 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 				</div>
 				<div class="area-side">
 					<div class="action ${noauth}">
-						<a onclick="toggleAction($(this), ${menuct})" 
-							class="ctxMenu waves-effect waves-dark btn-flat" style="padding:0">
+						<a onclick="toggleAction('trigger_${tlid}_${uniqueid}')" data-target="dropdown_${tlid}_${uniqueid}"
+							class="ctxMenu waves-effect waves-dark btn-flat" style="padding:0" id="trigger_${tlid}_${uniqueid}">
 							<i class="text-darken-3 material-icons act-icon" aria-hidden="true">expand_more</i>
 							<span class="voice">Other actions</span>
 						</a>
@@ -1139,45 +1137,32 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 						<span class="voice">${lang.lang_parse_detail}</span>
 					</div>
 				</div>
-				<div class="contextMenu hide z-depth-4">
-					<div class="${viashow}">
-						via ${escapeHTML(via)}<br>
-						<a onclick="client('${$.strip_tags(via)}')" class="pointer">${lang.lang_parse_clientop}</a>
-					</div>
+				<ul class="dropdown-content contextMenu" id="dropdown_${tlid}_${uniqueid}">
+					<li class="${viashow} via-dropdown" onclick="client('${$.strip_tags(via)}')" title="${lang.lang_parse_clientop}">
+						via ${escapeHTML(via)}</a>
+					</li>
 					<div>
-					<button onclick="bkm('${uniqueid}','${acct_id}','${tlid}')"
-						class="waves-effect waves-dark btn-flat actct bkm-btn" style="padding:0">
-						<i class="fas text-darken-3 fa-bookmark bkm_${toot.id} ${if_bkm}"></i>
-						<span class="bkmStr_${uniqueid}">${bkmStr}</span>
-					</button>
-					</div>
-					<div class="${if_mine}">
-						<button onclick="del('${uniqueid}','${acct_id}')" class="waves-effect waves-dark btn-flat actct"
+					<li onclick="bkm('${uniqueid}','${acct_id}','${tlid}')"
+						class="bkm-btn bkmStr_${uniqueid}" style="padding:0">
+						<i class="fas text-darken-3 fa-bookmark bkm_${toot.id} ${if_bkm}"></i>${bkmStr}
+					</li>
+					<li class="${if_mine}" onclick="del('${uniqueid}','${acct_id}')"
 							style="padding:0">
 							<i class="fas fa-trash"></i>${lang.lang_parse_del}
-						</button>
-					</div>
-					<div class="${if_mine}">
-						<button onclick="pin('${uniqueid}','${acct_id}')" class="waves-effect waves-dark btn-flat actct" style="padding:0">
-							<i class="fas fa-map-pin pin_${uniqueid} ${if_pin}"></i>
-							<span class="pinStr_${uniqueid}">${pinStr}</span>
-						</button>
-					</div>
-					<div class="${if_mine}">
-						<button onclick="redraft('${uniqueid}','${acct_id}')" class="waves-effect waves-dark btn-flat actct"
+					</li>
+					<li class="${if_mine}" onclick="pin('${uniqueid}','${acct_id}')" style="padding:0" class="pinStr_${uniqueid}">
+							<i class="fas fa-map-pin pin_${uniqueid} ${if_pin}"></i>${pinStr}
+					</li>
+					<li class="${if_mine}"  onclick="redraft('${uniqueid}','${acct_id}')"
 							style="padding:0">
 							<i class="material-icons" aria-hidden="true">redo</i>${lang.lang_parse_redraft}
-						</button>
-					</div>
+					</li>
 					${trans}
-					<div>
-					<button onclick="postMessage(['openUrl', '${toot.url}'], '*')"
-						class="waves-effect waves-dark btn-flat actct" style="padding:0">
-						<i class="fas text-darken-3 fa-globe"></i>
-						${lang.lang_parse_link}
-					</button>
-					</div>
-				</div>
+					<li onclick="postMessage(['openUrl', '${toot.url}'], '*')"
+						 style="padding:0">
+						<i class="fas text-darken-3 fa-globe"></i>${lang.lang_parse_link}
+					</li>
+				</ul>
 			</div>
 			`
 		}
@@ -1239,7 +1224,6 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 				} else if (auth == 'request') {
 					var ftxt = lang.lang_parse_request
 				}
-				console.log(auth, ftxt)
 				if (popup > 0 || popup == -1 || notf) {
 					var notftext = ftxt + '<br>'
 				} else {
@@ -1365,7 +1349,6 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 }
 //クライアントダイアログ
 function client(name) {
-	$('#contextWrap').addClass('hide')
 	if (name != 'Unknown') {
 		//聞く
 		Swal.fire({
@@ -1552,4 +1535,307 @@ function pollParse(poll, acct_id, emojis) {
 			</span>${poll.voters_count} ${lang.lang_parse_people}
 		</div>`
 	return pollHtml
+}
+
+//MastodonBaseStreaming
+var mastodonBaseWs = {}
+var mastodonBaseWsStatus = {}
+function mastodonBaseStreaming(acct_id) {
+	notfCommon(acct_id, 0, null, 'no')
+	const domain = localStorage.getItem(`domain_${acct_id}`)
+	if (mastodonBaseWsStatus[domain]) return
+	mastodonBaseWsStatus[domain] = 'undetected'
+	const at = localStorage.getItem(`acct_${acct_id}_at`)
+	let wss = 'wss://' + domain
+	if (localStorage.getItem('streaming_' + acct_id)) {
+		wss = localStorage.getItem('streaming_' + acct_id)
+	}
+	const start = `${wss}/api/v1/streaming/?access_token=${at}`
+	mastodonBaseWs[domain] = new WebSocket(start)
+	mastodonBaseWs[domain].onopen = function () {
+		mastodonBaseWsStatus[domain] = 'connecting'
+		setTimeout(function () {
+			mastodonBaseWsStatus[domain] = 'available'
+		}, 3000)
+		mastodonBaseWs[domain].send(`{"type":"subscribe","stream":"user"}`)
+		$('.notice_icon_acct_' + acct_id).removeClass('red-text')
+	}
+	mastodonBaseWs[domain].onmessage = function (mess) {
+		const typeA = JSON.parse(mess.data).event
+		if (typeA == 'delete') {
+			$(`[unique-id=${JSON.parse(mess.data).payload}]`).hide()
+			$(`[unique-id=${JSON.parse(mess.data).payload}]`).remove()
+		} else if (typeA == 'update' || typeA == 'conversation') {
+			//markers show中はダメ
+			const tl = JSON.parse(mess.data).stream
+			const obj = JSON.parse(JSON.parse(mess.data).payload)
+			const tls = getTlMeta(tl[0], tl, acct_id, obj)
+			insertTl(obj, tls)
+		} else if (typeA == 'filters_changed') {
+			filterUpdate(acct_id)
+		} else if (~typeA.indexOf('announcement')) {
+			announ(acct_id, tlid)
+		} else if (typeA == 'notification') {
+			const obj = JSON.parse(JSON.parse(mess.data).payload)
+			let template = ''
+			localStorage.setItem('lastnotf_' + acct_id, obj.id)
+			let popup = localStorage.getItem('popup')
+			if (!popup) {
+				popup = 0
+			}
+			if (obj.type != 'follow' && obj.type != 'follow_request') {
+				template = parse([obj], 'notf', acct_id, 'notf', popup)
+			} else if (obj.type == 'follow_request') {
+				template = userparse([obj.account], 'request', acct_id, 'notf', -1)
+			} else {
+				template = userparse([obj], obj.type, acct_id, 'notf', popup)
+			}
+			if (!$('div[data-notfIndv=' + acct_id + '_' + obj.id + ']').length) {
+				$('div[data-notf=' + acct_id + ']').prepend(template)
+				$('div[data-const=notf_' + acct_id + ']').prepend(template)
+			}
+			jQuery('time.timeago').timeago()
+		} else {
+			console.error('unknown type ' + typeA)
+		}
+	}
+	mastodonBaseWs[domain].onerror = function (error) {
+		notfCommon(acct_id, 0, null, 'only') //fallback
+		console.error("Error closing " + domain)
+		console.error(error)
+		if (mastodonBaseWsStatus[domain] == 'available') {
+			M.toast({
+				html:
+					`${lang.lang_parse_disconnected}<button class="btn-flat toast-action" onclick="location.reload()">${lang.lang_layout_reconnect}</button>`,
+				completeCallback: function () {
+					mastodonBaseWs[domain] = new WebSocket(start)
+				},
+				displayLength: 3000
+			})
+		}
+		mastodonBaseWsStatus[domain] = 'cannotuse'
+		setTimeout(function () {
+			mastodonBaseWsStatus[domain] = 'cannotuse'
+		}, 3000)
+		mastodonBaseWs[domain] = false
+		return false
+	}
+	mastodonBaseWs[domain].onclose = function () {
+		notfCommon(acct_id, 0, null, 'only') //fallback
+		console.warn("Closing " + domain)
+		if (mastodonBaseWsStatus[domain] == 'available') {
+			M.toast({
+				html:
+					`${lang.lang_parse_disconnected}<button class="btn-flat toast-action" onclick="location.reload()">${lang.lang_layout_reconnect}</button>`,
+				completeCallback: function () {
+					mastodonBaseWs[domain] = new WebSocket(start)
+				},
+				displayLength: 3000
+			})
+		}
+		mastodonBaseWs[domain] = false
+		mastodonBaseWsStatus[domain] = 'cannotuse'
+		setTimeout(function () {
+			mastodonBaseWsStatus[domain] = 'cannotuse'
+		}, 3000)
+		return false
+	}
+}
+function insertTl(obj, tls) {
+	for (const timeline of tls) {
+		const { id, voice, type, acct_id } = timeline
+		const mute = getFilterTypeByAcct(acct_id, type)
+		if ($(`#unread_${id} .material-icons`).hasClass('teal-text')) continue
+		if (!$(`#timeline_${id} [toot-id=${obj.id}]`).length) {
+			if (voice) {
+				say(obj.content)
+			}
+			const template = parse([obj], type, acct_id, id, '', mute, type)
+			console.log($(`#timeline_box_${id}_box .tl-box`).scrollTop(), `timeline_box_${id}_box .tl-box`)
+			if (
+				$(`#timeline_box_${id}_box .tl-box`).scrollTop() === 0
+			) {
+				$(`#timeline_${id}`).prepend(template)
+			} else {
+				let pool = localStorage.getItem('pool_' + id)
+				if (pool) {
+					pool = template + pool
+				} else {
+					pool = template
+				}
+				localStorage.setItem('pool_' + id, pool)
+			}
+			scrollck()
+			additional(acct_id, id)
+			jQuery('time.timeago').timeago()
+		}
+	}
+}
+function getTlMeta(type, data, num, status) {
+	const acct_id = num.toString()
+	const columns = localStorage.getItem('column')
+	const obj = JSON.parse(columns)
+	let ret = []
+	let i = 0
+	switch (type) {
+		case 'user':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				if (tl.type == 'mix' || tl.type == 'home') {
+					let voice = false
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break
+		case 'public:local':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				if (tl.type == 'mix' || tl.type == 'local') {
+					let voice = false
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break
+		case 'public:local:media':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				if (tl.type == 'local-media') {
+					let voice = false
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break;
+		case 'public':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				if (tl.type == 'pub') {
+					let voice = false
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break;
+		case 'public:media':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				if (tl.type == 'pub-media') {
+					let voice = false
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break;
+		case 'list':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				if (tl.type == 'list' && tl.data == data[1]) {
+					let voice = false
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break;
+		case 'direct':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				if (tl.type == 'dm') {
+					let voice = false
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break;
+		case 'hashtag':
+			for (const tl of obj) {
+				if (tl.domain != acct_id) continue
+				const columnDataRaw = tl.data
+				let columnData
+				if (!columnDataRaw.name) {
+					columnData = { name: columnDataRaw }
+				} else {
+					columnData = columnDataRaw
+				}
+				if (tl.type == 'tag') {
+					let voice = false
+					let can = false
+					if (columnData.name == data[1]) can = true
+					//any
+					if (columnData.any.split(',').includes(data[1])) can = true
+					//all
+					const { tags } = status
+					if (columnData.all) can = true
+					for (const { name } of tags) {
+						if (!columnData.all.split(',').includes(name)) {
+							can = false
+							break
+						}
+					}
+					//none
+					if (columnData.none) can = true
+					for (const { name } of tags) {
+						if (columnData.none.split(',').includes(name)) {
+							can = false
+							break
+						}
+					}
+					if (localStorage.getItem('voice_' + i)) voice = true
+					ret.push({
+						id: i,
+						voice: voice,
+						type: tl.type,
+						acct_id: tl.domain
+					})
+				}
+				i++
+			}
+			break;
+		default:
+			console.error(`Cannot catch`);
+	}
+	return ret
 }

@@ -60,16 +60,40 @@ var envConstruction = [
 		}
 	},
 	{
-		id: 'width',
-		storage: 'width',
+		checkbox: false,
+		doubleText: true,
+		data: [
+			{
+				id: 'width',
+				storage: 'width',
+				width: 50,
+				setValue: 300,
+				text: { after: 'px ~ ' }
+			},
+			{
+				id: 'maxWidth',
+				storage: 'max-width',
+				width: 50,
+				setValue: 600,
+				text: { after: 'px' }
+			}
+		],
+		text: {
+			head: '@@width@@',
+			desc: '@@widthwarn@@'
+		}
+	},
+	{
+		id: 'margin',
+		storage: 'margin',
 		checkbox: false,
 		doubleText: false,
+		setValue: 0,
 		width: 50,
-		setValue: 300,
 		text: {
-			head: '@@minwidth@@',
-			desc: '@@minwidthwarn@@',
-			after: 'px @@above@@'
+			head: '@@margin@@',
+			desc: '',
+			after: 'px'
 		}
 	},
 	{
