@@ -224,7 +224,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 				}
 				var emoji_url = `
 					<img draggable="false" src="${emoSource}" class="emoji-img" data-emoji="${shortcode}" 
-						alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');">
+						alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');" loading="lazy">
 				`
 				var regExp = new RegExp(':' + shortcode + ':', 'g')
 				dis_name = dis_name.replace(regExp, emoji_url)
@@ -241,7 +241,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 				noticeavatar = toot.account.avatar_static
 			}
 			noticeavatar = `<a onclick="udg('${toot.account.id}','${acct_id}');" user="${toot.account.acct}" class="udg">
-					<img draggable="false" src="${noticeavatar}" width="20" class="notf-icon prof-img" user="${toot.account.acct}" alt="">
+					<img draggable="false" src="${noticeavatar}" width="20" class="notf-icon prof-img" user="${toot.account.acct}" alt="" loading="lazy">
 				</a>`
 			if (toot.type == 'mention') {
 				var what = lang.lang_parse_mentioned
@@ -379,7 +379,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					}
 					var emoji_url = `
 						<img draggable="false" src="${emoSource}" class="emoji-img" data-emoji="${shortcode}" 
-							alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');">
+							alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');" loading="lazy">
 					`
 					var regExp = new RegExp(':' + shortcode + ':', 'g')
 					dis_name = dis_name.replace(regExp, emoji_url)
@@ -395,7 +395,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 				}
 				noticeavatar = `<a onclick="udg('${toot.account.id}','${acct_id}');" user="${toot.account.acct}" class="udg" aria-hidden="true">
 						<img draggable="false" src="${noticeavatar}" width="20" class="notf-icon prof-img" 
-							user="${toot.account.acct}" onerror="this.src=\'../../img/loading.svg\'">
+							user="${toot.account.acct}" onerror="this.src=\'../../img/loading.svg\'" loading="lazy">
 					</a>`
 				var rebtxt = lang.lang_parse_btedsimple
 				var rticon = 'fa-retweet light-blue-text'
@@ -436,7 +436,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 						}
 						var emoji_url = `
 							<img draggable="false" src="${emoSource}" class="emoji-img" data-emoji="${shortcode}" 
-								alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');">
+								alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');" loading="lazy">
 						`
 						var regExp = new RegExp(':' + shortcode + ':', 'g')
 						dis_name = dis_name.replace(regExp, emoji_url)
@@ -848,7 +848,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					}
 					var emoji_url = `
 						<img draggable="false" src="${emoSource}" class="emoji-img" data-emoji="${shortcode}" 
-							alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');">
+							alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');" loading="lazy">
 					`
 					var regExp = new RegExp(':' + shortcode + ':', 'g')
 					content = content.replace(regExp, emoji_url)
@@ -868,7 +868,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					var emoji = toot.profile_emojis[keynico]
 					var shortcode = emoji.shortcode
 					var emoji_url = `<img draggable="false" src="${emoji.url}" class="emoji-img" data-emoji="${shortcode}" alt=" :${shortcode}: "
-							 title="${shortcode}" onclick="this.classList.toggle(\'bigemoji\');">`
+							 title="${shortcode}" onclick="this.classList.toggle(\'bigemoji\');" loading="lazy">`
 					var regExp = new RegExp(':' + shortcode + ':', 'g')
 					content = content.replace(regExp, emoji_url)
 					spoil = spoil.replace(regExp, emoji_url)
@@ -955,7 +955,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 								};width:100%; height:0.9rem; font-size:0.8rem;" class="tickers">
 									<img draggable="false" src="${
 								value.favicon
-								}" style="height:100%;" onerror="this.src=\'../../img/loading.svg\'">
+								}" style="height:100%;" onerror="this.src=\'../../img/loading.svg\'" loading="lazy">
 									<span style="position:relative; top:-0.2rem;">${escapeHTML(value.name)}</span>
 								</div>`
 							break
@@ -977,7 +977,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 							<a onclick="udg('${toot.quote.account.id}','${acct_id}');" user="${
 						toot.quote.account.acct
 						}" class="udg">
-								<img draggable="false" src="${toot.quote.account.avatar}">
+								<img draggable="false" src="${toot.quote.account.avatar}" loading="lazy">
 							</a>
 						</div>
 						<div class="renote-user">
@@ -1025,15 +1025,15 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					'unix'
 				)}"
 					${if_notf}
-					onmouseover="mov('${toot.id}','${tlid}','mv')"
-					onclick="mov('${toot.id}','${tlid}','cl')"
+					onmouseover="mov('${uniqueid}','${tlid}','mv')"
+					onclick="mov('${uniqueid}','${tlid}','cl')"
 					onmouseout="resetmv('mv')"
 				>
 				<div class="area-notice grid"><span class="gray sharesta">${notice}${home}</span></div>
 				<div class="area-icon grid">
 					<a onclick="udg('${toot.account.id}','${acct_id}');" user="${toot.account.acct}" class="udg">
 						<img draggable="false" src="${avatar}" width="40" class="prof-img"
-							user="${toot.account.acct}" onerror="this.src='../../img/loading.svg'" alt="" />
+							user="${toot.account.acct}" onerror="this.src='../../img/loading.svg'" alt="" loading="lazy" />
 					</a>
 					${noticeavatar}
 				</div>
@@ -1273,7 +1273,7 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 						}
 						var emoji_url = `
 							<img draggable="false" src="${emoSource}" class="emoji-img" data-emoji="${shortcode}" 
-								alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');">
+								alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');" loading="lazy">
 						`
 						var regExp = new RegExp(':' + shortcode + ':', 'g')
 						dis_name = dis_name.replace(regExp, emoji_url)
@@ -1316,6 +1316,7 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 							user="${toot.acct}"
 							onerror="this.src='../../img/loading.svg'"
 							alt=""
+							loading="lazy"
 						/>
 					</a></div>
 					<div class="area-display_name">
@@ -1506,7 +1507,7 @@ function pollParse(poll, acct_id, emojis) {
 				}
 				var emoji_url = `
 			<img draggable="false" src="${emoSource}" class="emoji-img" data-emoji="${shortcode}" 
-				alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');">
+				alt=" :${shortcode}: " title="${shortcode}" onclick="this.classList.toggle('bigemoji');" loading="lazy">
 		`
 				var regExp = new RegExp(':' + shortcode + ':', 'g')
 				choiceText = choiceText.replace(regExp, emoji_url)
@@ -1557,7 +1558,7 @@ function mastodonBaseStreaming(acct_id) {
 		setTimeout(function () {
 			mastodonBaseWsStatus[domain] = 'available'
 		}, 3000)
-		mastodonBaseWs[domain].send(`{"type":"subscribe","stream":"user"}`)
+		mastodonBaseWs[domain].send(JSON.stringify({type: 'subscribe', stream: 'user'}))
 		$('.notice_icon_acct_' + acct_id).removeClass('red-text')
 	}
 	mastodonBaseWs[domain].onmessage = function (mess) {
