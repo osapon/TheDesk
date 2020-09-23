@@ -1,6 +1,6 @@
 {
     "name": "thedesk",
-    "version": "21.2.2",
+    "version": "21.2.3",
     "codename": "Mayu",
     "description": "TheDesk is a Mastodon client for PC.",
     "repository": "https://github.com/cutls/TheDesk",
@@ -68,7 +68,7 @@
         "lodash": "^4.17.20",
         "materialize-css": "git://github.com/cutls/materialize#v1-dev",
         "sumchecker": "^3.0.1",
-        "sweetalert2": "^10.0.2",
+        "sweetalert2": "^10.3.1",
         "system-font-families": "^0.4.1",
         "vue": "^2.6.12"
     },
@@ -79,7 +79,7 @@
         "chokidar": "^3.4.2",
         "electron": "^10.1.2",
         "electron-builder": "^22.8.1",
-        "electron-rebuild": "^1.11.0",
+        "electron-rebuild": "^2.0.3",
         "eslint": "^7.9.0",
         "readline-sync": "1.4.10"
     },
