@@ -216,3 +216,15 @@ if(pwa) {
 		}
 	}
 }
+const connection = function (event) {
+	console.log(navigator.onLine, 'network state')
+	if(!navigator.onLine) {
+		$('#re-online').addClass('hide')
+		$('#offline').removeClass('hide')
+	} else if(!$('#offline').hasClass('hide')) {
+		$('#offline').addClass('hide')
+		$('#re-online').removeClass('hide')
+	}
+}
+window.onoffline = connection
+window.ononline = connection
