@@ -1,5 +1,5 @@
 //オブジェクトパーサー(トゥート)
-function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
+function parse(obj, mix, acct_id, tlid, popup, mutefilter, type, onlyContent) {
 	var splitter = new GraphemeSplitter()
 	var templete = ''
 	if (obj[0]) {
@@ -194,7 +194,8 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 	}
 	var local = []
 	var times = []
-	Object.keys(obj).forEach(function (key) {
+	let content
+	for(let key in obj){
 		var domain = localStorage.getItem('domain_' + acct_id)
 		var toot = obj[key]
 		if (type == 'dm') {
@@ -463,9 +464,9 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 			}
 		}
 		if (toot.content == '') {
-			var content = '　'
+			content = '　'
 		} else {
-			var content = toot.content
+			content = toot.content
 		}
 		if (content) {
 			var id = toot.id
@@ -536,7 +537,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 					(sent < ct && $.mb_strlen($.strip_tags(content)) > 5) ||
 					($.mb_strlen($.strip_tags(content)) > ltr && $.mb_strlen($.strip_tags(content)) > 5)
 				) {
-					var content = `<span class="gray">${lang.lang_parse_fulltext}</span><br>` + content
+					content = `<span class="gray">${lang.lang_parse_fulltext}</span><br>` + content
 					var spoil = `<span class="cw_long">${$.mb_substr(
 						$.strip_tags(content),
 						0,
@@ -1012,12 +1013,13 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 			//このトゥート内のアクションを完了させるために、適当にIDを振る
 			var rand = randomStr(8)
 			//プラグイン機構
-			var plugin = plugins.buttonOnToot
+			var pluginBOT = plugins.buttonOnToot
 			var pluginHtml = ''
-			for (let target of plugin) {
+			for (let target of pluginBOT) {
 				const meta = getMeta(target.content)
 				pluginHtml = pluginHtml + `<li><a onclick="execPlugin('${target.id}','buttonOnToot',{id: '${uniqueid}', acct_id: '${acct_id}'});">${escapeHTML(meta.name)}</a></li>`
 			}
+
 			templete =
 				templete +
 				`<div
@@ -1169,7 +1171,8 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type) {
 			</div>
 			`
 		}
-	})
+	}
+	if (onlyContent) return content
 	if (mix == 'mix') {
 		return [templete, local, times]
 	} else {

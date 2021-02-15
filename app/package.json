@@ -1,6 +1,6 @@
 {
     "name": "thedesk",
-    "version": "22.0.0",
+    "version": "22.0.1",
     "codename": "Koume",
     "description": "TheDesk is a Mastodon client for PC.",
     "repository": "https://github.com/cutls/TheDesk",
@@ -59,7 +59,7 @@
     ],
     "license": "GPL-3.0",
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.1",
+        "@fortawesome/fontawesome-free": "^5.15.2",
         "@syuilo/aiscript": "^0.11.1",
         "electron-dl": "^3.0.2",
         "jimp": "^0.16.1",
@@ -68,8 +68,9 @@
         "json5": "^2.1.3",
         "lodash": "^4.17.20",
         "materialize-css": "git://github.com/cutls/materialize#v1-dev",
+        "sanitize-html": "^2.3.0",
         "sumchecker": "^3.0.1",
-        "sweetalert2": "^10.10.0",
+        "sweetalert2": "^10.13.0",
         "system-font-families": "^0.4.1",
         "vue": "^2.6.12"
     },
@@ -78,7 +79,7 @@
     },
     "devDependencies": {
         "browserify": "^17.0.0",
-        "chokidar": "^3.4.3",
+        "chokidar": "^3.5.1",
         "electron": "^10.1.5",
         "electron-builder": "^22.9.1",
         "electron-rebuild": "^2.3.2",
@@ -89,7 +90,8 @@
         "productName": "TheDesk",
         "appId": "top.thedesk",
         "asarUnpack": [
-            "node_modules/itunes-nowplaying-mac"
+            "node_modules/itunes-nowplaying-mac",
+            "main/script"
         ],
         "directories": {
             "output": "../build"

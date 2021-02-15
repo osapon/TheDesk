@@ -53,8 +53,12 @@
 			</div>
 			<div class="collapsible-body">
 				<h5>@@setlang@@</h5>
-				To translate with Crowdin, you have to login Crowdin and restart TheDesk when login is finished.<br><br>
-				@@langlist@@
+				<div style="display: flex;">
+					<div style="width: 22rem;" id="langsel">
+						<select id="langsel-sel">@@langlist@@</select>
+					</div>
+					<button class="btn waves-effect" onclick="changeLang()">@@change@@</button>
+				</div>
 				<h5>@@backup@@</h5>
 				<button onclick="exportSettings()" class="btn waves-effect lime darken-3"
 					style="width:100%; max-width:15rem;">@@export@@</button>
@@ -287,9 +291,7 @@
 					class="btn waves-effect red disabled" id="delTheme" onclick="deleteIt()">@@delete@@</button><br><br>
 				<input type="text" style="width:22rem;height:40px;" id="custom_json" class="materialize-textarea"
 					placeholder="JSON style" readonly><br>
-				@@customShare@@
 				<h4>@@customImport@@</h4>
-				@@cImpWarn@@<br>
 				<input type="text" style="width:22rem;height:40px;" id="custom_import" class="materialize-textarea"
 					placeholder="JSON/JSON5 style">
 				<button class="btn waves-effect" onclick="customImp()">@@import@@</button><br>
@@ -343,7 +345,8 @@
 				@@volwarn80@@<br>
 				<p class="range-field"><span id="soundVolVal">80</span><br>
 					<input type="range" id="soundvol" min="0" max="100" value="80" onchange="customVol()"
-						style="width:40rem; max-width:100%" /></p>
+						style="width:40rem; max-width:100%" />
+				</p>
 			</div>
 		</li>
 		<li>
@@ -398,13 +401,15 @@
 		</li>
 		<li>
 			<div class="collapsible-header">
-				<img src="../../img/aiscript.svg" style="height: 1.5rem; margin-left: 0.4rem; margin-right: 0.4rem;">@@plugin@@
+				<img src="../../img/aiscript.svg"
+					style="height: 1.5rem; margin-left: 0.4rem; margin-right: 0.4rem;">@@plugin@@
 			</div>
 			<div class="collapsible-body">
 				<a href="https://github.com/cutls/TheDesk/blob/master/plugin.md">@@howToWritePlugin@@</a><br />
 				<textarea id="plugin" data-id="add_new" style="height: 20rem"></textarea>
 				<button class="btn waves-effect" style="width:7.7rem;" onclick="completePlugin()">@@change@@</button>
-				<button class="btn waves-effect red disabled plugin_delete" style="width:7.7rem;" onclick="deletePlugin()">@@delete@@</button>
+				<button class="btn waves-effect red disabled plugin_delete" style="width:7.7rem;"
+					onclick="deletePlugin()">@@delete@@</button>
 				<h5>@@pluginList@@</h5>
 				<div style="width:22rem" id="plugin-selector" data-add="@@add_new@@">
 					<select id="plugin-edit-sel" class="custom-sel" onchange="pluginEdit()">
@@ -486,6 +491,20 @@
 						<span>@@no@@</span>
 					</label>
 					<br>
+					<h5>macOSコントロールセンター NowPlaying</h5>
+					日本語環境でのみご利用いただけます。(It works well on macOS with Japanese language profile.)<br />
+					上のアートワーク補完を使用しないとアートワークは付与されません。コントロールセンターがある日本語設定のmacOS Big Sur以降が対象です。<br />
+					なお、コントロールセンターが勝手に開きますが仕様ですのでご理解ください。上記のテンプレートは反映されず、常に「タイトル, アーティスト」になります。<br />
+					<label>
+						<input class="with-gap" onchange="cMusicFlagSave()" name="cmw" type="radio" id="cmw_yes"
+							value="yes" />
+						<span>@@yes@@</span>
+					</label>
+					<label>
+						<input class="with-gap" onchange="cMusicFlagSave()" name="cmw" type="radio" id="cmw_no"
+							value="no" />
+						<span>@@no@@</span>
+					</label>
 				</div>
 			</div>
 		</li>
@@ -511,19 +530,22 @@
 				<p class="range-field"><span id="voicespeedVal">10</span><br>
 					<input type="range" id="voicespeed" min="1" max="100" value="10"
 						onchange="document.getElementById('voicespeedVal').innerText=this.value"
-						style="width:40rem; max-width:100%" /></p>
+						style="width:40rem; max-width:100%" />
+				</p>
 				<h5>@@pitch@@</h5>
 				@@pitchwarn@@<br>
 				<p class="range-field"><span id="voicepitchVal">50</span><br>
 					<input type="range" id="voicepitch" min="0" max="100" value="50"
 						onchange="document.getElementById('voicepitchVal').innerText=this.value"
-						style="width:40rem; max-width:100%" /></p>
+						style="width:40rem; max-width:100%" />
+				</p>
 				<h5>@@vol@@</h5>
 				@@volwarn@@<br>
 				<p class="range-field"><span id="voicevolVal">100</span><br>
 					<input type="range" id="voicevol" min="0" max="100" value="100"
 						onchange="document.getElementById('voicevolVal').innerText=this.value"
-						style="width:40rem; max-width:100%" /></p>
+						style="width:40rem; max-width:100%" />
+				</p>
 				<h5>@@test@@</h5>
 				<input type="text" style="width:27rem" id="voicetxt" value="@@sample@@">
 				<button class="btn waves-effect blue" style="width:11.5rem;" onclick="voicePlay()"
@@ -608,7 +630,7 @@
 	</span><br>
 	TheDeskおよびCutls Pは<a href="https://donken.org/">被災地支援のためのマストドン研究会</a>をログイン機能提供等の形で応援しています。<br>
 	タグタイムラインを開く:<a href="index.html?mode=tag&code=被災地支援のためのマストドン研究会">#被災地支援のためのマストドン研究会</a><br>
-<script type="text/javascript" src="../../@@node_base@@/lodash/lodash.min.js"></script>
+	<script type="text/javascript" src="../../@@node_base@@/lodash/lodash.min.js"></script>
 	<script type="text/javascript" src="../../js/platform/aiscript.js"></script>
 	<script type="text/javascript" src="../../js/platform/plugin.js"></script>
 	<script type="text/javascript" src="../../js/common/modal.js"></script>

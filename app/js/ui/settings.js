@@ -98,6 +98,10 @@ function settings() {
 
 //読み込み時の設定ロード
 function load() {
+	var currentLang = lang.language
+	console.log(currentLang)
+	$(`#langsel-sel`).val(currentLang)
+	$('#langsel-sel').formSelect()
 	var max = envView.config.length
 	for (var i = 0; i < max; i++) {
 		var ls = envView.config[i].storage
@@ -283,8 +287,10 @@ function oksload() {
 		$('#oks-3').val(localStorage.getItem('oks-3'))
 	}
 }
-function changelang(lang) {
-	postMessage(['lang', lang], '*')
+function changeLang() {
+	const lang = $('#langsel-sel').val()
+	console.log(lang)
+	if(lang) postMessage(['lang', lang], '*')
 }
 function exportSettings() {
 	var exp = exportSettingsCore()
@@ -356,8 +362,12 @@ function exportSettingsCore() {
 	//tags
 	var tagarr = localStorage.getItem('tag')
 	var favtag = JSON.parse(tagarr)
-	exp.favoriteTags = favtag
-	exp.revisons = 2.1
+	//plugins
+	var plugins = localStorage.getItem('plugins')
+	var plugin = JSON.parse(plugins)
+	exp.plugins = plugin
+
+	exp.revisons = 2.2
 	exp.meta = {}
 	exp.meta.date = new Date()
 	exp.meta.thedesk = localStorage.getItem('ver')
@@ -395,6 +405,7 @@ function importSettingsCore(obj) {
 			localStorage.setItem('prof_' + key, acct.prof)
 			localStorage.setItem('domain_' + key, acct.domain)
 			localStorage.setItem('acct_' + key + '_at', acct.at)
+			localStorage.setItem('acct_' + key + '_rt', acct.rt ? acct.rt : null)
 		}
 		localStorage.setItem('column', JSON.stringify(obj.columns))
 		if (obj.config) {

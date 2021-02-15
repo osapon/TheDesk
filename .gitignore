@@ -26,3 +26,10 @@ app/git
 releasenote.md
 app/yarn-error.log
 app/js/platform/aiscript.js
+app/view/es-ES
+app/view/fr-FR
+app/view/no-NO
+app/view/zh-CN
+app/view/ru-RU
+app/view/zh-TW
+app/view/pt-BR
