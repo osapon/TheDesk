@@ -1,26 +1,24 @@
 {
     "name": "thedesk",
-    "version": "22.1.0",
+    "version": "22.1.2",
     "codename": "Koume",
     "description": "TheDesk is a Mastodon client for PC.",
     "repository": "https://github.com/cutls/TheDesk",
     "main": "main.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "construct": "cd view/make && node make --automatic && cd ../../ && browserify aiscript.js -o js/platform/aiscript.js",
-        "construct:store": "cd view/make && node make --automatic --store && cd ../../ && browserify aiscript.js -o js/platform/aiscript.js",
-        "dev": "npx electron ./ --dev",
-        "dist": "build --linux snap",
-        "watchview": "node view/make/make.js --automatic --watch",
-        "build:js": "node build.js",
-        "build": "node view/make/make.js --automatic && npx electron-builder",
-        "build:pwa": "node view/make/make.js --automatic --pwa",
-        "build:win:web": "node view/make/make.js --automatic && npx electron-builder --win",
-        "build:win:msstore": "node view/make/make.js --automatic --store && npx electron-builder --win appx",
-        "build:linux:web": "node view/make/make.js --automatic && npx electron-builder --linux",
-        "build:linux:snapstore": "node view/make/make.js --automatic --store && npx electron-builder --linux",
-        "build:mac:web": "node view/make/make.js --automatic && npx electron-builder --mac",
-        "build:mac:homebrew": "node view/make/make.js --automatic --store && npx electron-builder --mac",
+        "postinstall": "run-s util:*",
+        "util:hash": "node gitHash.js",
+        "util:browserify": "browserify aiscript.js -o js/platform/aiscript.js",
+        "construct": "node view/make/makeCli.js",
+        "construct:store": "node view/make/makeCli.js --store",
+        "dev": "run-p dev:*",
+        "dev:run": "electron ./ --dev",
+        "dev:watchview": "node view/make/makeCli.js --watch",
+        "build": "node build.js",
+        "build:pwa": "node view/make/makeCli.js --pwa",
+        "build:all:x64": "node build.js --withStore",
+        "build:all": "node build.js --withStore --withIa32",
         "lint:fix": "eslint js --fix",
         "lint": "eslint js"
     },
@@ -61,83 +59,35 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
         "@syuilo/aiscript": "^0.11.1",
-        "electron-dl": "^3.0.2",
+        "electron-dl": "^3.2.1",
+        "itunes-nowplaying-mac": "git://github.com/cutls/itunes-nowplaying-mac#077a3c8fdac18d91048684698463f2478bd32683",
         "jimp": "^0.16.1",
-        "jquery": "^3.5.1",
+        "jquery": "^3.6.0",
         "jquery-ui-dist": "^1.12.1",
         "json5": "^2.2.0",
-        "lodash": "^4.17.20",
+        "lodash": "^4.17.21",
         "materialize-css": "git://github.com/cutls/materialize#v1-dev",
         "sanitize-html": "^2.3.2",
         "sumchecker": "^3.0.1",
-        "sweetalert2": "^10.14.0",
+        "sweetalert2": "^10.15.7",
         "system-font-families": "^0.4.1",
         "vue": "^2.6.12"
-    },
-    "optionalDependencies": {
-        "itunes-nowplaying-mac": "0.3.1"
     },
     "devDependencies": {
         "browserify": "^17.0.0",
         "chokidar": "^3.5.1",
-        "electron": "^10.1.5",
-        "electron-builder": "^22.9.1",
-        "electron-rebuild": "^2.3.2",
-        "eslint": "^7.13.0",
-        "readline-sync": "1.4.10"
+        "dotenv": "^8.2.0",
+        "electron": "^12.0.2",
+        "electron-builder": "^22.10.5",
+        "electron-notarize": "^1.0.0",
+        "electron-rebuild": "^2.3.5",
+        "eslint": "^7.23.0",
+        "npm-run-all": "^4.1.5",
+        "readline-sync": "1.4.10",
+        "ts-node": "^9.1.1",
+        "typescript": "^4.2.4"
     },
-    "build": {
-        "productName": "TheDesk",
-        "appId": "top.thedesk",
-        "asarUnpack": [
-            "node_modules/itunes-nowplaying-mac",
-            "main/script"
-        ],
-        "directories": {
-            "output": "../build"
-        },
-        "win": {
-            "icon": "build/thedesk.ico",
-            "target": [
-                "nsis",
-                "appx",
-                "portable"
-            ]
-        },
-        "appx": {
-            "identityName": "53491Cutls.TheDesk",
-            "applicationId": "Cutls.TheDesk",
-            "publisherDisplayName": "Cutls",
-            "publisher": "CN=629757F5-A5EE-474F-9562-B304A89A9FD1",
-            "languages": [
-                "JA-JP",
-                "EN-US"
-            ]
-        },
-        "nsis": {
-            "oneClick": false,
-            "allowToChangeInstallationDirectory": true,
-            "artifactName": "TheDesk-setup.${ext}"
-        },
-        "linux": {
-            "icon": "build/icons",
-            "target": [
-                "zip",
-                "appImage",
-                "snap",
-                "deb"
-            ],
-            "category": "Network"
-        },
-        "mac": {
-            "target": [
-                "dmg",
-                "zip"
-            ]
-        },
-        "electronDownload": {
-            "version": "9.0.5"
-        },
-        "electronVersion": "9.0.5"
+    "resolutions": {
+        "@types/fs-extra": "9.0.11"
     }
 }

@@ -9,6 +9,7 @@ function system(mainWindow, dir, lang, dirname) {
 	const clipboard = electron.clipboard
 	var tmp_img = join(app.getPath('userData'), 'tmp.png')
 	var ha_path = join(app.getPath('userData'), 'hardwareAcceleration')
+	var wv_path = join(app.getPath('userData'), 'webview')
 	var ua_path = join(app.getPath('userData'), 'useragent')
 	var lang_path = join(app.getPath('userData'), 'language')
 	var log_dir_path = join(app.getPath('userData'), 'logs')
@@ -35,13 +36,13 @@ function system(mainWindow, dir, lang, dirname) {
 		} catch {
 			var gitHash = null
 		}
-		e.sender.webContents.send('platform', [process.platform, process.arch, process.version, process.versions.chrome, process.versions.electron, gitHash])
+		e.sender.send('platform', [process.platform, process.arch, process.version, process.versions.chrome, process.versions.electron, gitHash])
 	})
 	//言語
 	ipc.on('lang', function (e, arg) {
 		console.log('set:' + arg)
 		fs.writeFileSync(lang_path, arg)
-		e.sender.webContents.send('langres', arg)
+		e.sender.send('langres', arg)
 	})
 	//エクスポートのダイアログ
 	ipc.on('exportSettings', function (e, args) {
@@ -53,7 +54,7 @@ function system(mainWindow, dir, lang, dirname) {
 		if (!savedFiles) {
 			return false
 		}
-		e.sender.webContents.send('exportSettingsFile', savedFiles)
+		e.sender.send('exportSettingsFile', savedFiles)
 	})
 	//インポートのダイアログ
 	ipc.on('importSettings', function (e, args) {
@@ -66,7 +67,7 @@ function system(mainWindow, dir, lang, dirname) {
 		if (!fileNames) {
 			return false
 		}
-		e.sender.webContents.send('config', JSON5.parse(fs.readFileSync(fileNames[0], 'utf8')))
+		e.sender.send('config', JSON5.parse(fs.readFileSync(fileNames[0], 'utf8')))
 	})
 	//保存フォルダのダイアログ
 	ipc.on('savefolder', function (e, args) {
@@ -77,7 +78,7 @@ function system(mainWindow, dir, lang, dirname) {
 				properties: ['openDirectory'],
 			}
 		)
-		e.sender.webContents.send('savefolder', fileNames[0])
+		e.sender.send('savefolder', fileNames[0])
 	})
 	//カスタムサウンドのダイアログ
 	ipc.on('customSound', function (e, arg) {
@@ -92,7 +93,7 @@ function system(mainWindow, dir, lang, dirname) {
 				],
 			}
 		)
-		e.sender.webContents.send('customSoundRender', [arg, fileNames[0]])
+		e.sender.send('customSoundRender', [arg, fileNames[0]])
 	})
 
 	//ハードウェアアクセラレーションの無効化
@@ -100,7 +101,16 @@ function system(mainWindow, dir, lang, dirname) {
 		if (arg == 'true') {
 			fs.writeFileSync(ha_path, arg)
 		} else {
-			fs.unlink(ha_path, function (err) {})
+			fs.unlink(ha_path, function (err) { })
+		}
+		app.relaunch()
+		app.exit()
+	})
+	ipc.on('webview', function (e, arg) {
+		if (arg == 'true') {
+			fs.writeFileSync(wv_path, arg)
+		} else {
+			fs.unlink(wv_path, function (err) { })
 		}
 		app.relaunch()
 		app.exit()
@@ -108,7 +118,7 @@ function system(mainWindow, dir, lang, dirname) {
 	//ユーザーエージェント
 	ipc.on('ua', function (e, arg) {
 		if (arg == '') {
-			fs.unlink(ua_path, function (err) {})
+			fs.unlink(ua_path, function (err) { })
 		} else {
 			fs.writeFileSync(ua_path, arg)
 		}
@@ -124,7 +134,7 @@ function system(mainWindow, dir, lang, dirname) {
 	//スクリーンリーダー
 	ipc.on('acsCheck', function (e, arg) {
 		if (app.accessibilitySupportEnabled) {
-			mainWindow.webContents.send('accessibility', 'true')
+			mainWindow.send('accessibility', 'true')
 		}
 	})
 	ipc.on('quit', (e, args) => {
@@ -188,8 +198,8 @@ function system(mainWindow, dir, lang, dirname) {
 	})
 	function mems() {
 		var mem = os.totalmem() - os.freemem()
-		if (mainWindow && event.webContents) {
-			event.webContents.send('memory', [mem, os.cpus()[0].model, os.totalmem(), os.cpus().length, os.uptime()])
+		if (mainWindow && event) {
+			event.send('memory', [mem, os.cpus()[0].model, os.totalmem(), os.cpus().length, os.uptime()])
 		}
 	}
 	ipc.on('endmem', (e, arg) => {
@@ -200,7 +210,7 @@ function system(mainWindow, dir, lang, dirname) {
 
 	ipc.on('export', (e, args) => {
 		fs.writeFileSync(args[0], JSON5.stringify(args[1]))
-		e.sender.webContents.send('exportAllComplete', '')
+		e.sender.send('exportAllComplete', '')
 	})
 	//フォント
 	function object_array_sort(data, key, order, fn) {
@@ -239,7 +249,7 @@ function system(mainWindow, dir, lang, dirname) {
 		var SystemFonts = require('system-font-families').default
 		var fm = new SystemFonts()
 		const fontList = fm.getFontsSync()
-		e.sender.webContents.send('font-list', fontList)
+		e.sender.send('font-list', fontList)
 	})
 	//コピー
 	ipc.on('copy', (e, arg) => {
@@ -276,7 +286,7 @@ function system(mainWindow, dir, lang, dirname) {
 				logs = todayLog + yestLog + yest2Log
 			})
 			logs = yest2Log + yestLog + todayLog
-			e.sender.webContents.send('logData', logs)
+			e.sender.send('logData', logs)
 		})
 	})
 
@@ -298,6 +308,29 @@ function system(mainWindow, dir, lang, dirname) {
 				})
 			})
 		}
+	})
+
+	ipc.on('twitterLogin', (e, args) => {
+		const window = new BrowserWindow({
+			webPreferences: {
+				webviewTag: false,
+				nodeIntegration: false,
+				contextIsolation: true,
+				preload: join(dirname, 'js', 'platform', 'preload.js'),
+			},
+			width: 414,
+			height: 736,
+		})
+		const login = `https://mobile.twitter.com/login?hide_message=true&redirect_after_login=https%3A%2F%2Ftweetdeck.twitter.com%2F%3Fvia_twitter_login%3Dtrue`
+		const logout = `https://mobile.twitter.com/logout?redirect_after_logout=https%3A%2F%2Ftweetdeck.twitter.com%2F`
+		window.loadURL(args ? logout : login)
+		window.webContents.on('did-navigate', () => {
+			const url = window.webContents.getURL()
+			if (url.match("https://tweetdeck.twitter.com")) {
+				window.close()
+				e.sender.send('twitterLoginComplete', '')
+			}
+		})
 	})
 }
 exports.system = system
