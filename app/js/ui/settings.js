@@ -5,13 +5,13 @@ var envView = new Vue({
 	methods: {
 		complete: function (i, val) {
 			var ls = envView.config[i]
+			let header = ls.text.head
 			if (!ls.data) {
 				ls = [ls]
 			} else {
 				ls = ls.data
 			}
 			for (var j = 0; j < ls.length; j++) {
-				M.toast({ html: 'Complete', displayLength: 3000 })
 				var id = ls[j].id
 				localStorage.setItem(ls[j].storage, val)
 			}
@@ -27,6 +27,7 @@ var envView = new Vue({
 			if (ls[0].id == 'frame') {
 				frameSet(val)
 			}
+			M.toast({ html: `Updated: ${header}`, displayLength: 3000 })
 			return true
 		},
 	},
@@ -37,6 +38,7 @@ var tlView = new Vue({
 	methods: {
 		complete: function (i, val) {
 			var ls = tlView.config[i]
+			let header = ls.text.head
 			if (val) {
 				localStorage.setItem(ls.storage, val)
 			} else {
@@ -46,12 +48,12 @@ var tlView = new Vue({
 					ls = ls.data
 				}
 				for (var j = 0; j < ls.length; j++) {
-					M.toast({ html: 'Complete', displayLength: 3000 })
 					var id = ls[j].id
 					var val = $('#' + id).val()
 					localStorage.setItem(ls[j].storage, val)
 				}
 			}
+			M.toast({ html: `Updated: ${header}`, displayLength: 3000 })
 			return true
 		},
 	},
@@ -66,6 +68,7 @@ var postView = new Vue({
 	methods: {
 		complete: function (i, val) {
 			var ls = postView.config[i]
+			let header = ls.text.head
 			if (val) {
 				localStorage.setItem(ls.storage, val)
 			} else {
@@ -81,6 +84,7 @@ var postView = new Vue({
 					localStorage.setItem(ls[j].storage, val)
 				}
 			}
+			M.toast({ html: `Updated: ${header}`, displayLength: 3000 })
 			return true
 		},
 	},
@@ -310,11 +314,10 @@ function exportSettings() {
 	var exp = exportSettingsCore()
 	$('#imp-exp').val(JSON5.stringify(exp))
 	Swal.fire({
-		title: lang.lang_setting_exportwarn,
+		title: 'Warning',
+		text: lang.lang_setting_exportwarn,
 		type: 'warning',
 		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
 		confirmButtonText: lang.lang_yesno,
 		cancelButtonText: lang.lang_no,
 	}).then((result) => {
@@ -389,20 +392,19 @@ function exportSettingsCore() {
 	return exp
 }
 function importSettings() {
-	if ($('#imp-exp').val()) {
-		importSettingsCore(JSON5.parse($('#imp-exp').val()))
-		return false
-	}
 	Swal.fire({
-		title: lang.lang_setting_importwarn,
+		title: 'Warning',
+		text: lang.lang_setting_importwarn,
 		type: 'warning',
 		showCancelButton: true,
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
 		confirmButtonText: lang.lang_yesno,
 		cancelButtonText: lang.lang_no,
 	}).then((result) => {
 		if (result.value) {
+			if ($('#imp-exp').val()) {
+				importSettingsCore(JSON5.parse($('#imp-exp').val()))
+				return false
+			}
 			postMessage(['importSettings', ''], '*')
 		}
 	})
@@ -551,9 +553,9 @@ function copyColor(from, to) {
 		i++
 	}
 }
-function customComp() {
+function customComp(preview) {
 	var nameC = $('#custom_name').val()
-	if (!nameC) {
+	if (!nameC && !preview) {
 		return false
 	}
 	var descC = $('#custom_desc').val()
@@ -585,7 +587,7 @@ function customComp() {
 	if (id == 'add_new' || defaults.includes(id)) {
 		id = makeCID()
 	}
-	localStorage.setItem('customtheme-id', id)
+	if (!preview) localStorage.setItem('customtheme-id', id)
 	var json = {
 		name: nameC,
 		author: my,
@@ -602,38 +604,18 @@ function customComp() {
 		version: '2'
 	}
 	$('#custom_json').val(JSON.stringify(json))
-	let timerInterval
-	Swal.fire({
-		title: 'Saving...',
-		html: '',
-		timer: 1000,
-		timerProgressBar: true,
-		onBeforeOpen: () => {
-			Swal.showLoading()
-		},
-		onClose: () => {
-			clearInterval(timerInterval)
-		}
-	}).then((result) => {
-		themes()
-		ctLoad()
+	if (preview) {
+		postMessage(['themeCSSPreview', json], '*')
+	} else {
+		$('#custom-edit-sel').val(id)
+		$('select').formSelect()
 		Swal.fire({
-			title: 'Refreshing...',
-			html: '',
-			timer: 1000,
-			timerProgressBar: true,
-			onBeforeOpen: () => {
-				Swal.showLoading()
-			},
-			onClose: () => {
-				clearInterval(timerInterval)
-			}
-		}).then((result) => {
-			$('#custom-edit-sel').val(id)
-			$('select').formSelect()
+			type: 'success',
+			title: 'Saved',
 		})
-	})
-	postMessage(['themeJsonCreate', JSON.stringify(json)], '*')
+		postMessage(['themeJsonCreate', JSON.stringify(json)], '*')
+	}
+
 }
 function deleteIt() {
 	var id = $('#custom-sel-sel').val()
@@ -795,7 +777,8 @@ function completePlugin(comp) {
 	if (!meta.data) {
 		Swal.fire({
 			icon: 'error',
-			title: `error on line ${meta.location.start.line}`,
+			title: 'Syntax Error',
+			text: `error on line ${meta.location.start.line}`,
 			text: meta,
 		})
 		return false
@@ -803,7 +786,7 @@ function completePlugin(comp) {
 	if (!meta.data.name || !meta.data.version || !meta.data.event || !meta.data.author) {
 		Swal.fire({
 			icon: 'error',
-			title: 'error',
+			title: 'Meta data error',
 			title: 'Syntax Error of META DATA',
 		})
 		return false
@@ -834,7 +817,8 @@ function testExecTrg() {
 	if (meta.location) {
 		Swal.fire({
 			icon: 'error',
-			title: `error on line ${meta.location.start.line}`,
+			title: 'Error',
+			text: `error on line ${meta.location.start.line}`,
 			text: meta,
 		})
 		return false
@@ -922,13 +906,13 @@ function checkupd() {
 				if (newest == ver) {
 					Swal.fire({
 						type: 'info',
-						title: lang.lang_setting_noupd,
+						text: lang.lang_setting_noupd,
 						html: ver,
 					})
 				} else if (ver.indexOf('beta') != -1 || winstore) {
 					Swal.fire({
 						type: 'info',
-						title: lang.lang_setting_thisisbeta,
+						text: lang.lang_setting_thisisbeta,
 						html: ver,
 					})
 				} else {
