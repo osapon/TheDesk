@@ -10,6 +10,7 @@
 #his-data-content {
 	display: flex;
 	justify-content: center;
+	padding: 0px;
 }
 #his-name {
 	font-size: 1.5rem;
@@ -24,16 +25,15 @@
 }
 #his-float-data {
 	height: 100%;
-  overflow-y: hidden;
-  
+	overflow-y: hidden;
+	flex: 40%;
 }
 #his-leftside {
   width: 28.4rem;
-  max-width: 30vw;
+  max-width: 38vw;
 }
 #his-float-timeline {
-  max-width: 47.5rem;
-  min-width: calc(100% - 29.4rem);
+	flex: 60%;
 	height: 100%;
 	overflow-y: hidden;
 }
@@ -76,8 +76,8 @@
 }
 #his-data-show {
 	margin: 1.5rem;
-	margin-left: 3.8rem;
-	margin-right: 3.8rem;
+	margin-left: 0;
+	margin-right: 0;
 	background-color: var(--his-data);
 	height: calc(100% - 1.5rem);
 	margin-bottom: 0;
@@ -85,12 +85,13 @@
 }
 #his-data-wrap {
 	display: flex;
+	height: 100%;
 }
 .his-var-content {
 	overflow-y: scroll;
 	overflow-x: hidden;
-	height: calc(100% - 3.4rem);
-	padding-bottom: 60px;
+	height: 100%;
+	padding-bottom: 120px;
 }
 #my-data-nav .btn {
 	width: 10.6rem;
@@ -160,3 +161,4 @@
 	text-align: center;
 	font-size: 1.5rem;
 }
+
