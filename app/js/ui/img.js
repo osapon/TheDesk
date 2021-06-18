@@ -160,32 +160,29 @@ function calcNiceAspect(width, height) {
 	if (width < 650) {
 		width = 650
 	}
-	var windowH = $(window).height()
-	var windowW = $(window).width()
+	var windowH = $('#imagewrap').height()
+	var windowW = $('#imagewrap').width()
 	$('#imagemodal').css('bottom', '0')
-	$('#imagemodal img').css('width', 'auto')
-	if (height < windowH) {
-		$('#imagemodal').css('height', height + 100 + 'px')
-		$('#imagemodal img').css('height', height + 'px')
-		if (width > windowW * 0.8) {
-			$('#imagemodal').css('width', '80vw')
-			$('#imagemodal img').css('width', 'auto')
-			var heightS = ((windowW * 0.8) / width) * height
-			$('#imagemodal').css('height', heightS + 100 + 'px')
-		} else {
-			$('#imagemodal').css('width', width + 'px')
-		}
-	} else {
+	if ((width <= windowW) && (height <= windowH)) {
 		$('#imagemodal img').css('width', 'auto')
-		var widthS = (windowH / height) * width
-		if (widthS < windowW) {
-			$('#imagemodal').css('width', widthS + 'px')
-		} else {
-			$('#imagemodal').css('width', '100vw')
+	}
+	else if ((width <= windowW) && (height > windowH)) {
+		$('#imagemodal img').css('width', 'auto')
+		$('#imagemodal img').css('height', '100%')
+	}
+	else if ((width > windowW) && (height <= windowH)) {
+		$('#imagemodal img').css('width', '100%')
+		$('#imagemodal img').css('height', 'auto')
+	}
+	else {
+		if ((width / windowW) <= (height / windowH)) {
+			$('#imagemodal img').css('width', 'auto')
+			$('#imagemodal img').css('height', '100%')
 		}
-
-		$('#imagemodal').css('height', '100vh')
-		$('#imagemodal img').css('height', 'calc(100vh - 60px)')
+		else {
+			$('#imagemodal img').css('width', '100%')
+			$('#imagemodal img').css('height', 'auto')
+		}
 	}
 }
 //ズームボタン(z:倍率)
