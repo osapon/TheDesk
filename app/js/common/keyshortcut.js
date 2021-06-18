@@ -73,6 +73,12 @@ $(function($) {
 				return false
 			}
 		}
+		//Ctrl+W:終了させない
+		if (event.metaKey || (event.ctrlKey && wv)) {
+			if (e.keyCode === 87) {
+				return false
+			}
+		}
 		//input/textareaにフォーカスなし時
 		if (!hasFocus && !hasFocus2 && wv) {
 			if (!wv) {
