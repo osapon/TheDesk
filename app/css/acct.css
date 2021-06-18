@@ -92,3 +92,18 @@ i.left {
 .text-line-icon {
 	font-size: 1rem;
 }
+.loginBtnWrap {
+	padding-top: 10px !important;
+}
+#add {
+	max-width: 1000px;
+}
+.autocomplete-content {
+	min-width: 450px;
+}
+.autocomplete-content li {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    overflow: hidden;
+}

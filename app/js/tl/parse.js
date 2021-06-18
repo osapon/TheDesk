@@ -278,7 +278,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type, onlyContent) {
 				</span>
 				<span class="voice">${date(toot.created_at, 'absolute')}(${lang.lang_parse_notftime})</span>
 				<i class="big-text fas ${icon}"></i>
-				<a onclick="udg('${toot.account.id}','${acct_id}')" class="pointer grey-text">
+				<a onclick="udg('${toot.account.id}','${acct_id}')" class="pointer grey-text notf-udg-text">
 					${dis_name}(@${toot.account.acct})
 				</a>`
 			var notice = noticetext
@@ -624,7 +624,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type, onlyContent) {
 							var mty = media.remote_url.match(/.+(\..+)$/)[1]
 							viewer =
 								viewer +
-								`<a href="${media.url ? media.url : media.remote_url}" title="${media.remote_url} from ${media.url}">[${lang.lang_parse_unknown}(${mty})]</a> `
+								`<a href="${media.url ? media.url : media.remote_url}" title="${media.url ? media.url : media.remote_url}">[${lang.lang_parse_unknown}(${mty})]</a>${media.url ? `<a href="${media.remote_url}"><i class="material-icons sublink" title="${media.remote_url}">open_in_new</i></a>` : ''} `
 						} else if (media.type == 'audio') {
 							viewer =
 								viewer +
@@ -695,31 +695,6 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type, onlyContent) {
 						<a onclick="details('${toot.id}','${acct_id}','${tlid}')" class="pointer waves-effect">
 							${lang.lang_parse_thread}
 						</a></div>`
-			}
-			var tagck = toot.tags[0]
-			var tags = ''
-			//タグであれば
-			if (tagck) {
-				Object.keys(toot.tags).forEach(function (key4) {
-					var tag = toot.tags[key4]
-					var featured = `　<a onclick="tagFeature('${tag.name}','${acct_id}')" class="pointer" title="add it to Featured tags">Feature</a>　`
-					tags =
-						tags +
-						`<span class="hide" data-tag="${tag.name}" data-regTag="${tag.name.toLowerCase()}">#${tag.name
-						}:
-							<a onclick="tl('tag','${tag.name}','${acct_id}','add')" class="pointer"
-							 title="${lang.lang_parse_tagTL.replace(
-							'{{tag}}',
-							'#' + tag.name
-						)}">TL</a>　<a onclick="brInsert('#${tag.name}')" 
-							 class="pointer" title="${lang.lang_parse_tagtoot.replace('{{tag}}', '#' + tag.name)}">Toot</a>　
-						<a onclick="tagPin('${tag.name}')" class="pointer" title="${lang.lang_parse_tagpin.replace(
-							'{{tag}}',
-							'#' + tag.name
-						)}
-						">Pin</a>${featured}</span> `
-				})
-				tags = '<div style="float:right" aria-hidden="true">' + tags + '</div>'
 			}
 			//リプ数
 			if (toot.replies_count || toot.replies_count === 0) {
@@ -897,7 +872,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type, onlyContent) {
 			//日本語じゃない
 			if (toot.language != lang.language && toot.language) {
 				var trans = `<li onclick="trans('${toot.language}','${lang.language}', $(this))" 
-							 style="padding:0">
+							 style="padding:0; padding-top: 5px;">
 								<i class="material-icons" aria-hidden="true">g_translate</i>${lang.lang_parse_trans}
 					</li>`
 			} else {
@@ -1071,7 +1046,7 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type, onlyContent) {
 				</div>
 				<div class="area-additional grid">
 					<span class="additional">${analyze}</span>
-					${mentions}${tags}
+					${mentions}
 				</div>
 				<div class="area-actions">
 					<div class="action ${antinoauth}">
@@ -1150,23 +1125,23 @@ function parse(obj, mix, acct_id, tlid, popup, mutefilter, type, onlyContent) {
 					</li>
 					<div>
 					<li onclick="bkm('${uniqueid}','${acct_id}','${tlid}')"
-						class="bkm-btn bkmStr_${uniqueid}" style="padding:0">
+						class="bkm-btn bkmStr_${uniqueid}" style="padding:0; padding-top: 5px;">
 						<i class="fas text-darken-3 fa-bookmark bkm_${toot.id} ${if_bkm}"></i>${bkmStr}
 					</li>
 					<li class="${if_mine}" onclick="del('${uniqueid}','${acct_id}')"
-							style="padding:0">
+							style="padding:0; padding-top: 5px;">
 							<i class="fas fa-trash"></i>${lang.lang_parse_del}
 					</li>
-					<li class="${if_mine}" onclick="pin('${uniqueid}','${acct_id}')" style="padding:0" class="pinStr_${uniqueid}">
+					<li class="${if_mine}" onclick="pin('${uniqueid}','${acct_id}')" style="padding:0; padding-top: 5px;" class="pinStr_${uniqueid}">
 							<i class="fas fa-map-pin pin_${uniqueid} ${if_pin}"></i>${pinStr}
 					</li>
 					<li class="${if_mine}"  onclick="redraft('${uniqueid}','${acct_id}')"
-							style="padding:0">
+							style="padding:0; padding-top: 5px;">
 							<i class="material-icons" aria-hidden="true">redo</i>${lang.lang_parse_redraft}
 					</li>
 					${trans}
 					<li onclick="postMessage(['openUrl', '${toot.url}'], '*')"
-						 style="padding:0">
+						 style="padding:0; padding-top: 5px;">
 						<i class="fas text-darken-3 fa-globe"></i>${lang.lang_parse_link}
 					</li>
 					${pluginHtml}
@@ -1335,7 +1310,7 @@ function userparse(obj, auth, acct_id, tlid, popup) {
 								class="sml gray"
 								style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;user-select:auto; cursor:text;"
 							>
-								@ ${toot.acct}${locked}</span>
+								@${toot.acct}${locked}</span>
 						</div>
 					</div>
 					<div class="area-status">
@@ -1570,6 +1545,7 @@ function mastodonBaseStreaming(acct_id) {
 		$('.notice_icon_acct_' + acct_id).removeClass('red-text')
 	}
 	mastodonBaseWs[domain].onmessage = function (mess) {
+		$(`div[data-acct=${acct_id}] .landing`).hide()
 		const typeA = JSON.parse(mess.data).event
 		if (typeA == 'delete') {
 			$(`[unique-id=${JSON.parse(mess.data).payload}]`).hide()

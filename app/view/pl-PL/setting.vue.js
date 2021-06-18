@@ -250,6 +250,19 @@ var tlConstruction = [
 		}
 	},
 	{
+		id: "blur-strength",
+		storage: "blur-strength",
+		checkbox: false,
+		doubleText: false,
+		width: 80,
+		setValue: 50,
+		text: {
+			head: "Strength of blur effect",
+			desc: "default:50",
+			after: "px"
+		}
+	},
+	{
 		id: 'cw',
 		storage: 'cw',
 		checkbox: true,

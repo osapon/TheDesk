@@ -38,7 +38,7 @@
 	overflow-y: hidden;
 }
 #his-basic-prof {
-  display: flex;
+	display: flex;
 	min-height: 10rem;
 }
 #his-field {
@@ -151,14 +151,28 @@
 	background-color: var(--bg);
 }
 #hisdropdown li a {
-	color: white;
+	color: var(--text);
 }
 #hisdropdown li:hover {
 	background-color: var(--active);
 }
-#his-data-title {
+#his-data-title-wrap {
 	width: 100%;
 	text-align: center;
 	font-size: 1.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
+<<<<<<< HEAD
 
+=======
+#his-data-title .material-icons {
+	position: relative;
+	top: 5px;
+	margin-right: 3px;
+}
+#his-data-title a {
+	color: white;
+}
+>>>>>>> 679151e8eadafebe68b8c0887e9189caeb94474e
